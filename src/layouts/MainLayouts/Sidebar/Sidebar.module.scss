@@ -1,6 +1,6 @@
 .wrapper {
   width: 240px;
-  height: 100vh;
+  height: calc(100vh - 90px);
   background-color: var(--sidebar-bg);
   position: fixed;
   top: 0;
@@ -46,6 +46,5 @@
 
 .container {
   display: flex;
-  align-items: start;
   flex-direction: column;
 }

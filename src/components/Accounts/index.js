@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import "tippy.js/dist/tippy.css";
 import TippyTollTip from "@tippyjs/react";
-
 import styles from "./Accounts.module.scss";
+import Button from "../Button/Button";
 
 const cx = classNames.bind(styles);
 
@@ -31,17 +31,21 @@ function Accounts() {
       </div>
       <div className={cx("media-right")}>
         <TippyTollTip content="Thêm vào thư viện">
-          <button className={cx("container-btn", "container-btn-heart")}>
-            <FontAwesomeIcon className={cx("icon-heart")} icon={faHeart} />
-          </button>
+          <div>
+            <Button className={cx("btn-icon")}>
+              <FontAwesomeIcon className={cx("icon-heart")} icon={faHeart} />
+            </Button>
+          </div>
         </TippyTollTip>
         <TippyTollTip content="Khác">
-          <button className={cx("container-btn", "container-btn-more")}>
-            <FontAwesomeIcon
-              className={cx("icon-more")}
-              icon={faEllipsisVertical}
-            />
-          </button>
+          <div>
+            <Button className={cx("btn-icon")}>
+              <FontAwesomeIcon
+                className={cx("icon-more")}
+                icon={faEllipsisVertical}
+              />
+            </Button>
+          </div>
         </TippyTollTip>
       </div>
     </div>

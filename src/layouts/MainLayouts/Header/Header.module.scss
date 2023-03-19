@@ -12,6 +12,7 @@
   justify-content: space-between;
   align-items: center;
   z-index: 999;
+  backdrop-filter: blur(50px);
 }
 
 // Level-left
@@ -52,7 +53,6 @@
   font-size: 1.4rem;
   width: 80%;
   overflow: hidden;
- 
 }
 
 .search-input::placeholder {

@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import { NEW_MUSIC } from "~/untils/homeConst";
 import styles from "./Home.module.scss";
 import * as apis from "../../apis";
+import TippyToolTip from "@tippyjs/react";
+import Button from "~/components/Button/Button";
 
 const cx = classNames.bind(styles);
 
@@ -23,15 +25,19 @@ function Home() {
   const [sortNewMusic, setSortNewMusic] = useState("all");
 
   const handleBackTranslteX = () => {
-    translateSlideX < 0
-      ? setTranslateSlideX(`${Number(translateSlideX) + 100}`)
-      : setTranslateSlideX(`${dataHome.items[0].items.length * -100 + 300}`);
+    if (dataHome) {
+      translateSlideX < 0
+        ? setTranslateSlideX(`${Number(translateSlideX) + 100}`)
+        : setTranslateSlideX(`${dataHome.items[0].items.length * -100 + 300}`);
+    }
   };
 
   const handleNextTranslteX = () => {
-    translateSlideX > dataHome.items[0].items.length * -100 + 300
-      ? setTranslateSlideX(`${Number(translateSlideX) - 100}`)
-      : setTranslateSlideX("0");
+    if (dataHome) {
+      translateSlideX > dataHome.items[0].items.length * -100 + 300
+        ? setTranslateSlideX(`${Number(translateSlideX) - 100}`)
+        : setTranslateSlideX("0");
+    }
   };
 
   const handleItemNewMusicClick = (id) => {
@@ -160,9 +166,13 @@ function Home() {
                     <span className={cx("singer")}>{music.artistsNames}</span>
                     <span className={cx("time")}>Hôm qua</span>
                   </div>
-                  <button className={cx("btn-more")}>
-                    <FontAwesomeIcon icon={faEllipsisVertical} />
-                  </button>
+                  <TippyToolTip content="Khác">
+                    <div>
+                      <Button className={cx("btn-icon")}>
+                        <FontAwesomeIcon icon={faEllipsisVertical} />
+                      </Button>
+                    </div>
+                  </TippyToolTip>
                 </div>
               </div>
             ))}

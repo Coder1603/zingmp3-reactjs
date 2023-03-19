@@ -61,11 +61,10 @@
   width: 100%;
   align-items: center;
   font-size: 1.3rem;
-  font-weight: 700;
-  padding: 8px 25px;
+  font-weight: 500;
+  padding: 10px 25px;
   color: var(--navigation-text);
   border-left: 3px solid transparent;
-
   &:hover {
     color: #fff;
   }
@@ -99,12 +98,15 @@
 
 .icon-left {
   margin-right: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .stickySidebar {
-  position: fixed;
+  position: absolute;
   width: 240px;
   left: 0;
+  bottom: 0;
   height: 54px;
   border-top: 1px solid var(--border-primary);
   padding: 0 28px;
@@ -113,5 +115,30 @@
   align-items: center;
   color: var(--text-primary);
   font-weight: 700;
-  bottom: 0;
+}
+
+.btn-icon {
+  background-color: transparent;
+  width: 38px;
+  height: 38px;
+  margin: 0 4px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  border-radius: 999px;
+  font-weight: 400;
+  text-transform: none;
+  cursor: pointer;
+  position: relative;
+  color: var(--song-item-action);
+  &:hover {
+    background-color: var(--alpha-bg);
+  }
+}
+
+.btnMv {
+  cursor: not-allowed;
+  opacity: 0.5;
 }

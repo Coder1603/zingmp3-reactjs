@@ -19,6 +19,8 @@ function Button({
   stickySidebar,
   hided,
   sidebar,
+  btnIcon,
+  btnMv,
 
   ...passProps
 }) {
@@ -46,6 +48,7 @@ function Button({
     disabled,
     sidebar,
     stickySidebar,
+    btnMv,
   });
 
   return (

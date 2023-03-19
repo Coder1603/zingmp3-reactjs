@@ -4,60 +4,68 @@ import {
   faMusic,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
+import { HiOutlineStopCircle } from "react-icons/hi2";
+import { ImFileMusic } from "react-icons/im";
+import { FaChartPie } from "react-icons/fa";
+import { IoRadioOutline, IoMusicalNotesOutline } from "react-icons/io5";
+import { GoNote } from "react-icons/go";
+import { VscGroupByRefType } from "react-icons/vsc";
+import { AiOutlineStar } from "react-icons/ai";
+import { MdOutlineVideoLibrary } from "react-icons/md";
 
 const SIDE_BAR = [
   {
     title: "Cá nhân",
-    leftIcon: <FontAwesomeIcon icon={faMusic} />,
+    leftIcon: <ImFileMusic />,
     top: true,
   },
   {
     title: "Khám phá",
-    leftIcon: <FontAwesomeIcon icon={faMusic} />,
+    leftIcon: <HiOutlineStopCircle />,
     to: "/",
     top: true,
   },
   {
     title: "#zingchart",
-    leftIcon: <FontAwesomeIcon icon={faMusic} />,
+    leftIcon: <FaChartPie />,
     rightIcon: <FontAwesomeIcon icon={faCirclePlay} />,
     top: true,
     to: "/zing-chart",
   },
   {
     title: "Radio",
-    leftIcon: <FontAwesomeIcon icon={faMusic} />,
+    leftIcon: <IoRadioOutline />,
     rightIcon: <FontAwesomeIcon icon={faCirclePlay} />,
     to: "/Radio",
     top: true,
   },
   {
     title: "Theo dõi",
-    leftIcon: <FontAwesomeIcon icon={faMusic} />,
+    leftIcon: <GoNote />,
     top: true,
   },
   {
     title: "Nhạc mới",
-    leftIcon: <FontAwesomeIcon icon={faMusic} />,
+    leftIcon: <IoMusicalNotesOutline />,
     rightIcon: <FontAwesomeIcon icon={faCirclePlay} />,
     to: "/newmusic",
     bottom: true,
   },
   {
     title: "Thể loại",
-    leftIcon: <FontAwesomeIcon icon={faMusic} />,
+    leftIcon: <VscGroupByRefType />,
     to: "/hub",
     bottom: true,
   },
   {
     title: "Top 100",
-    leftIcon: <FontAwesomeIcon icon={faMusic} />,
+    leftIcon: <AiOutlineStar />,
     to: "/top100",
     bottom: true,
   },
   {
     title: "MV",
-    leftIcon: <FontAwesomeIcon icon={faMusic} />,
+    leftIcon: <MdOutlineVideoLibrary />,
     to: "/mv",
     bottom: true,
   },
