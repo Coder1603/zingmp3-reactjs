@@ -1,3 +1,11 @@
 const { override, useBabelRc } = require("customize-cra");
 
-module.exports = override(useBabelRc());
+module.exports = override(useBabelRc(), (config) => {
+  config.resolve.fallback = {
+    ...config.resolve.fallback,
+    crypto: require.resolve("crypto-browserify"),
+    stream: require.resolve("stream-browserify"),
+    buffer: require.resolve("buffer"),
+  };
+  return config;
+});

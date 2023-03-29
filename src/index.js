@@ -5,13 +5,17 @@ import reportWebVitals from "./reportWebVitals";
 import GlobalStyles from "./components/GlobalStyles";
 import App from "~/App";
 
+import { StoreProvider } from "./store";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <GlobalStyles>
+  // <React.StrictMode>
+  <GlobalStyles>
+    <StoreProvider>
       <App />
-    </GlobalStyles>
-  </React.StrictMode>
+    </StoreProvider>
+  </GlobalStyles>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

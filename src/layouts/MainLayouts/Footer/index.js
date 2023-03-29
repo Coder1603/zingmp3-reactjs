@@ -10,20 +10,55 @@ import {
   faRepeat,
   faShuffle,
 } from "@fortawesome/free-solid-svg-icons";
-import Button from "~/components/Button/Button";
 import TippyToolTip from "@tippyjs/react";
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { BsWindowFullscreen } from "react-icons/bs";
 import { GiMicrophone } from "react-icons/gi";
 import { BiVolumeFull } from "react-icons/bi";
 import { MdQueueMusic, MdOutlineVideoLibrary } from "react-icons/md";
 
+import Button from "~/components/Button/Button";
 import styles from "./Footer.module.scss";
+import * as apis from "~/apis";
+import { StoreContext } from "~/store";
 
 const cx = classNames.bind(styles);
 
 function Footer() {
-  const [isActivePlay, setIsActivePlay] = useState(true);
+  const [curSongId] = useContext(StoreContext);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audio, setAudio] = useState(
+    new Audio(
+      "https://vnso-zn-15-tf-mp3-s1-zmp3.zmdcdn.me/8e5fc7134953a00df942/2257027387132757047?authen=exp=1680247050~acl=/8e5fc7134953a00df942/*~hmac=063b2fbb9b2a8371d9dcb1c1bc057b6d&fs=MTY4MDA3NDI1MDQ4M3x3ZWJWNnwwfDExNi4xMDMdUngNjQdUngMTQ5"
+    )
+  );
+  const [songInf, setSongInf] = useState(null);
+
+  useEffect(() => {
+    const fetchDetailSong = async () => {
+      const [res1, res2] = await Promise.all([
+        apis.getDetailSong(curSongId),
+        apis.getSong(curSongId),
+      ]);
+      if (res2.data.err === 0) {
+        audio.pause();
+        setAudio(new Audio(res2.data.data["128"]));
+        setIsPlaying(true);
+        if (res1.data.err === 0) {
+          setSongInf(res1.data.data);
+        }
+      }
+    };
+    fetchDetailSong();
+  }, [curSongId]);
+
+  useEffect(() => {
+    audio.load();
+    if (isPlaying) {
+      audio && audio.play();
+    }
+  }, [audio]);
 
   return (
     <div className={cx("wrapper")}>
@@ -31,17 +66,25 @@ function Footer() {
         <div className={cx("media")}>
           <div className={cx("media-thumnail")}>
             <img
-              src="https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/cover/9/2/8/6/9286a209a5eb472c4fdbd901ade57e8c.jpg"
+              src={
+                songInf
+                  ? songInf.album.thumbnail
+                  : "https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/cover/0/0/c/2/00c2a6e4d929830865540ee154e52211.jpg"
+              }
               alt=""
             />
           </div>
 
           <div className={cx("media-content")}>
             <div className={cx("content-name")}>
-              <span>Mưa Trong Lòng</span>
+              <span>
+                {songInf ? songInf.album.title : "Chuyện Chúng Ta Sau Này"}
+              </span>
             </div>
             <div className={cx("content-artists")}>
-              <span>Tùng Maru, Vũ Phụng Tiên</span>
+              <span>
+                {songInf ? songInf.album.artistsNames : "Hải Đăng Doo"}
+              </span>
             </div>
           </div>
 
@@ -77,13 +120,22 @@ function Footer() {
             <FontAwesomeIcon icon={faBackwardStep} />
           </Button>
           <button
-            onClick={() => setIsActivePlay(!isActivePlay)}
+            onClick={() => {
+              setIsPlaying(!isPlaying);
+              if (isPlaying) {
+                setIsPlaying(false);
+                audio.pause();
+              } else {
+                setIsPlaying(true);
+                audio.play();
+              }
+            }}
             className={cx("play-pause")}
           >
-            {isActivePlay ? (
-              <FontAwesomeIcon icon={faCirclePlay} />
-            ) : (
+            {isPlaying ? (
               <FontAwesomeIcon icon={faCirclePause} />
+            ) : (
+              <FontAwesomeIcon icon={faCirclePlay} />
             )}
           </button>
           <Button className={cx("btn-icon")}>

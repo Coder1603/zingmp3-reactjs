@@ -6,23 +6,26 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import TippyToolTip from "@tippyjs/react";
 
 import { NEW_MUSIC } from "~/untils/homeConst";
 import styles from "./Home.module.scss";
-import * as apis from "../../apis";
-import TippyToolTip from "@tippyjs/react";
+import * as apis from "~/apis";
 import Button from "~/components/Button/Button";
+import { StoreContext, actions } from "~/store";
 
 const cx = classNames.bind(styles);
 
 function Home() {
   const [dataHome, setDataHome] = useState(null);
   const [translateSlideX, setTranslateSlideX] = useState("0");
-  const [zoomAlbum, setZoomAlbum] = useState(false);
   const [visible, setVisible] = useState(false);
   const [activeId, setActiveId] = useState(0);
   const [sortNewMusic, setSortNewMusic] = useState("all");
+  const [indexSong, setIndexSong] = useState(null);
+
+  const [, dispatch] = useContext(StoreContext);
 
   const handleBackTranslteX = () => {
     if (dataHome) {
@@ -71,11 +74,9 @@ function Home() {
     fetchDataHome();
   }, []);
   console.log(dataHome);
-
   return (
     <div className={cx("wrapper")}>
       {/* SLIDE HEADER HOME */}
-
       <div
         onMouseOver={() => setVisible(true)}
         onMouseOut={() => setVisible(false)}
@@ -108,16 +109,10 @@ function Home() {
         </div>
       </div>
 
-      {/* ALBUM XEM GẦN Đây */}
-
       <div className={cx("container-section")}>
         <h3 className={cx("title-section")}>Gần Đây</h3>
         <div className={cx("select-recently")}>
-          <div
-            onMouseOver={() => setZoomAlbum(true)}
-            onMouseOut={() => setZoomAlbum(false)}
-            className={cx("album")}
-          >
+          <div className={cx("album")}>
             <img
               src="https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/e/d/2/5/ed251cf560be4747e7737b535c357f07.jpg"
               alt=""
@@ -153,7 +148,15 @@ function Home() {
           {dataHome &&
             dataHome.items[3].items[sortNewMusic].map((music, index) => (
               <div key={index} className={cx("container-colum")}>
-                <div className={cx("music")}>
+                <div
+                  className={cx("music", {
+                    active: indexSong === index,
+                  })}
+                  onClick={() => {
+                    setIndexSong(index);
+                    dispatch(actions.setEncodeId(music.encodeId));
+                  }}
+                >
                   <div className={cx("img-music")}>
                     <img src={music.thumbnail} alt={music.title} />
                     <div className={cx("opacity")}></div>
@@ -167,7 +170,7 @@ function Home() {
                     <span className={cx("time")}>Hôm qua</span>
                   </div>
                   <TippyToolTip content="Khác">
-                    <div>
+                    <div className={cx("three-dot")}>
                       <Button className={cx("btn-icon")}>
                         <FontAwesomeIcon icon={faEllipsisVertical} />
                       </Button>
