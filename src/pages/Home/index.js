@@ -6,14 +6,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import TippyToolTip from "@tippyjs/react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { NEW_MUSIC } from "~/untils/homeConst";
 import styles from "./Home.module.scss";
 import * as apis from "~/apis";
 import Button from "~/components/Button/Button";
-import { StoreContext, actions } from "~/store";
+import * as actions from "~/redux/actions";
 
 const cx = classNames.bind(styles);
 
@@ -25,7 +27,7 @@ function Home() {
   const [sortNewMusic, setSortNewMusic] = useState("all");
   const [indexSong, setIndexSong] = useState(null);
 
-  const [, dispatch] = useContext(StoreContext);
+  const dispatch = useDispatch();
 
   const handleBackTranslteX = () => {
     if (dataHome) {
@@ -73,7 +75,7 @@ function Home() {
     };
     fetchDataHome();
   }, []);
-  console.log(dataHome);
+
   return (
     <div className={cx("wrapper")}>
       {/* SLIDE HEADER HOME */}
@@ -84,24 +86,28 @@ function Home() {
       >
         {dataHome &&
           dataHome.items[0].items.map((galleryItem, idx) => (
-            <div
+            <Link
+              to={galleryItem.type === 4 ? galleryItem.link : "/"}
               key={idx}
               className={cx("gallery-item")}
               style={{ transform: `translateX(${translateSlideX}%)` }}
+              onClick={() => {
+                dispatch(actions.setPlaslistId(galleryItem.encodeId));
+              }}
             >
               <img src={galleryItem.banner} alt={galleryItem.encodeId} />
-            </div>
+            </Link>
           ))}
 
         <div className={cx("gallery-btn", { "btn-hover": visible })}>
           <button
-            className={cx(" back", "btn")}
+            className={cx("back", "btn")}
             onClick={() => handleBackTranslteX()}
           >
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
           <button
-            className={cx(" next", "btn")}
+            className={cx("next", "btn")}
             onClick={() => handleNextTranslteX()}
           >
             <FontAwesomeIcon icon={faChevronRight} />
@@ -154,7 +160,7 @@ function Home() {
                   })}
                   onClick={() => {
                     setIndexSong(index);
-                    dispatch(actions.setEncodeId(music.encodeId));
+                    dispatch(actions.setSongId(music.encodeId));
                   }}
                 >
                   <div className={cx("img-music")}>

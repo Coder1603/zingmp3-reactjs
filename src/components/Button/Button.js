@@ -21,6 +21,7 @@ function Button({
   sidebar,
   btnIcon,
   btnMv,
+  album,
 
   ...passProps
 }) {
@@ -49,6 +50,7 @@ function Button({
     sidebar,
     stickySidebar,
     btnMv,
+    album,
   });
 
   return (

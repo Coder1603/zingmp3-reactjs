@@ -26,11 +26,6 @@
 }
 
 .gallery-btn {
-  position: absolute;
-  left: 25px;
-  right: 25px;
-  top: 50%;
-  transform: translateY(-50%);
   z-index: 10;
   display: flex;
   justify-content: space-between;
@@ -55,6 +50,17 @@
   box-shadow: 0 2px 4px 0 rgb(226 102 102 / 15%);
   font-size: 3rem;
   cursor: pointer;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+}
+
+.back {
+  left: 25px;
+}
+
+.next {
+  right: 25px;
 }
 
 .container-section {

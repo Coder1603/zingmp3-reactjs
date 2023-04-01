@@ -20,13 +20,15 @@ import { MdQueueMusic, MdOutlineVideoLibrary } from "react-icons/md";
 import Button from "~/components/Button/Button";
 import styles from "./Footer.module.scss";
 import * as apis from "~/apis";
-import { StoreContext } from "~/store";
+import { useSelector } from "react-redux";
 
 const cx = classNames.bind(styles);
 
 function Footer() {
-  const [curSongId] = useContext(StoreContext);
+  const sid = useSelector((state) => state.sidReducer.sid);
+  const playlistSid = useSelector((state) => state.playlist.sid);
 
+  const [curSongId, setCurSongId] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio, setAudio] = useState(
     new Audio(
@@ -34,6 +36,14 @@ function Footer() {
     )
   );
   const [songInf, setSongInf] = useState(null);
+
+  useEffect(() => {
+    if (window.location.pathname === "/") {
+      setCurSongId(sid);
+    } else {
+      setCurSongId(playlistSid);
+    }
+  }, [sid, playlistSid]);
 
   useEffect(() => {
     const fetchDetailSong = async () => {

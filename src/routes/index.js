@@ -6,6 +6,7 @@ import NewMusic from "~/pages/NewMusic";
 import Hub from "~/pages/Hub";
 import Top100 from "~/pages/Top100";
 import Mv from "~/pages/Mv";
+import Album from "~/components/Album";
 
 //Public Routes
 const publicRoutes = [
@@ -40,6 +41,14 @@ const publicRoutes = [
   {
     path: "/mv",
     compenent: Mv,
+  },
+  {
+    path: "/album/:pid/:sid",
+    compenent: Album,
+  },
+  {
+    path: "/playlist/:pid/:sid",
+    compenent: Album,
   },
 ];
 //Private Routes
