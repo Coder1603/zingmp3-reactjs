@@ -70,11 +70,12 @@ function Home() {
   useEffect(() => {
     const fetchDataHome = async () => {
       const response = await apis.getHome();
-
       setDataHome(response.data.data);
     };
     fetchDataHome();
   }, []);
+
+  // console.log(dataHome);
 
   return (
     <div className={cx("wrapper")}>
@@ -84,20 +85,19 @@ function Home() {
         onMouseOut={() => setVisible(false)}
         className={cx("gallery-container")}
       >
-        {dataHome &&
-          dataHome.items[0].items.map((galleryItem, idx) => (
-            <Link
-              to={galleryItem.type === 4 ? galleryItem.link : "/"}
-              key={idx}
-              className={cx("gallery-item")}
-              style={{ transform: `translateX(${translateSlideX}%)` }}
-              onClick={() => {
-                dispatch(actions.setPlaslistId(galleryItem.encodeId));
-              }}
-            >
-              <img src={galleryItem.banner} alt={galleryItem.encodeId} />
-            </Link>
-          ))}
+        {dataHome?.items[0].items.map((galleryItem, idx) => (
+          <Link
+            to={galleryItem.type === 4 ? galleryItem.link : "/"}
+            key={idx}
+            className={cx("gallery-item")}
+            style={{ transform: `translateX(${translateSlideX}%)` }}
+            onClick={() => {
+              dispatch(actions.setPlaylist({ pid: galleryItem.encodeId }));
+            }}
+          >
+            <img src={galleryItem.banner} alt={galleryItem.encodeId} />
+          </Link>
+        ))}
 
         <div className={cx("gallery-btn", { "btn-hover": visible })}>
           <button
@@ -114,26 +114,19 @@ function Home() {
           </button>
         </div>
       </div>
-
-      <div className={cx("container-section")}>
+      {/* ALBUM RECENLY */}
+      {/* <div className={cx("container-section")}>
         <h3 className={cx("title-section")}>Gần Đây</h3>
         <div className={cx("select-recently")}>
-          <div className={cx("album")}>
-            <img
-              src="https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/e/d/2/5/ed251cf560be4747e7737b535c357f07.jpg"
-              alt=""
-            />
-            <span className={cx("title-recently")}>#zingchart</span>
-          </div>
-          <div className={cx("album")}>
-            <img
-              src="https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/e/d/2/5/ed251cf560be4747e7737b535c357f07.jpg"
-              alt=""
-            />
-            <span className={cx("title-recently")}>#zingchart</span>
-          </div>
+          {dataHome?.items[12].items.map((album) => (
+            <div className={cx("album")}>
+              <img src={album.thumbnail} alt={album.title} />
+              <span className={cx("title-recently")}>#zingchart</span>
+            </div>
+          ))}
         </div>
-      </div>
+      </div> */}
+      {/* MỚI PHÁT HÀNH */}
       <div className={cx("container-section")}>
         <span className={cx("title-section")}>Mới Phát Hành</span>
         <div className={cx("nav-new")}>
@@ -148,43 +141,40 @@ function Home() {
           ))}
         </div>
 
-        {/* MỚI PHÁT HÀNH */}
-
         <div className={cx("container-musics")}>
-          {dataHome &&
-            dataHome.items[3].items[sortNewMusic].map((music, index) => (
-              <div key={index} className={cx("container-colum")}>
-                <div
-                  className={cx("music", {
-                    active: indexSong === index,
-                  })}
-                  onClick={() => {
-                    setIndexSong(index);
-                    dispatch(actions.setSongId(music.encodeId));
-                  }}
-                >
-                  <div className={cx("img-music")}>
-                    <img src={music.thumbnail} alt={music.title} />
-                    <div className={cx("opacity")}></div>
-                    <button className={cx("btn-play")}>
-                      <FontAwesomeIcon icon={faPlay} />
-                    </button>
-                  </div>
-                  <div className={cx("inf")}>
-                    <h5 className={cx("name-music")}>{music.title}</h5>
-                    <span className={cx("singer")}>{music.artistsNames}</span>
-                    <span className={cx("time")}>Hôm qua</span>
-                  </div>
-                  <TippyToolTip content="Khác">
-                    <div className={cx("three-dot")}>
-                      <Button className={cx("btn-icon")}>
-                        <FontAwesomeIcon icon={faEllipsisVertical} />
-                      </Button>
-                    </div>
-                  </TippyToolTip>
+          {dataHome?.items[3].items[sortNewMusic].map((music, index) => (
+            <div key={index} className={cx("container-colum")}>
+              <div
+                className={cx("music", {
+                  active: indexSong === index,
+                })}
+                onClick={() => {
+                  setIndexSong(index);
+                  dispatch(actions.setSongId(music.encodeId));
+                }}
+              >
+                <div className={cx("img-music")}>
+                  <img src={music.thumbnail} alt={music.title} />
+                  <div className={cx("opacity")}></div>
+                  <button className={cx("btn-play")}>
+                    <FontAwesomeIcon icon={faPlay} />
+                  </button>
                 </div>
+                <div className={cx("inf")}>
+                  <h5 className={cx("name-music")}>{music.title}</h5>
+                  <span className={cx("singer")}>{music.artistsNames}</span>
+                  <span className={cx("time")}>Hôm qua</span>
+                </div>
+                <TippyToolTip content="Khác">
+                  <div className={cx("three-dot")}>
+                    <Button className={cx("btn-icon")}>
+                      <FontAwesomeIcon icon={faEllipsisVertical} />
+                    </Button>
+                  </div>
+                </TippyToolTip>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>

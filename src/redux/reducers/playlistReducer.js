@@ -10,8 +10,8 @@ const playlistReducer = (state = initialState, action) => {
     case actionTypes.SET_PLAYLISTID: {
       return {
         ...state,
-        pid: action.payload || null,
-        sid: action.payload || null,
+        pid: action.payload.pid || null,
+        sid: action.payload.sid || state.sid,
       };
     }
     default:

@@ -71,7 +71,7 @@ function Header() {
             leftIcon={<FontAwesomeIcon icon={faMagnifyingGlass} />}
             className={cx("search-btn")}
           ></Button>
-          <div style={{ width: "100%" }}>
+          <div className={cx("aaa")} style={{ width: "100%" }}>
             <Tippy
               interactive
               visible={isVisible}

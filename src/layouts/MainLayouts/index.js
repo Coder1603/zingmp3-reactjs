@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import styles from "./MainLayouts.module.scss";
-import Footer from "./Footer";
+import PlayerControl from "./PlayerControl";
 
 const cx = classNames.bind(styles);
 
@@ -15,7 +15,7 @@ function MainLayout({ children }) {
         <Header />
         <div className={cx("content")}>{children}</div>
       </div>
-      <Footer />
+      <PlayerControl />
     </div>
   );
 }

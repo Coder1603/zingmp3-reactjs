@@ -89,6 +89,9 @@
 button.play-pause {
   cursor: pointer;
   font-size: 3rem;
+  &:hover {
+    color: var(--link-text-hover);
+  }
 }
 
 .center-duration {
@@ -122,16 +125,23 @@ button.play-pause {
   background-color: hsla(0, 0%, 100%, 0.3);
   position: relative;
   cursor: pointer;
+  transition: height 0.01s linear;
+  &:hover {
+    height: 5px;
+  }
+
   &:hover .bar-circle {
     visibility: visible;
+    width: 12px;
+    height: 12px;
   }
   &:hover .bar-cover {
-    height: 150%;
+    height: 5px;
   }
 }
 
 .bar-cover {
-  width: 33%;
+  width: 0;
   height: 100%;
   background-color: #fff;
   position: absolute;
@@ -139,6 +149,7 @@ button.play-pause {
   top: 50%;
   transform: translateY(-50%);
   border-radius: 4px;
+  transition: height 0.1s ease;
 }
 
 .bar-circle {
@@ -147,7 +158,7 @@ button.play-pause {
   border-radius: 50%;
   background-color: #fff;
   position: absolute;
-  right: 0;
+  right: -5px;
   top: 50%;
   transform: translateY(-50%);
   visibility: hidden;
@@ -190,5 +201,11 @@ button.play-pause {
   button {
     border-radius: 4px;
     background-color: hsla(0, 0%, 100%, 0.1);
+  }
+}
+
+.active {
+  button {
+    color: var(--link-text-hover);
   }
 }
