@@ -12,6 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 99;
 }
 
 .level-left {
@@ -89,6 +90,9 @@
 button.play-pause {
   cursor: pointer;
   font-size: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:hover {
     color: var(--link-text-hover);
   }

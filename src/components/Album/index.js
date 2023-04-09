@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { IoMusicalNotesOutline } from "react-icons/io5";
@@ -17,15 +17,15 @@ const cx = classNames.bind(styles);
 function Album() {
   const dispatch = useDispatch();
 
-  const currentPlaylist = useSelector((state) => state.playlist.pid);
-  const controlPlayer = useSelector((state) => {
-    return state.controlPlayer;
-  });
+  const { albumId } = useSelector((state) => state.album);
+  const { isShuffling, nextMusic, backMusic } = useSelector(
+    (state) => state.controlPlayer
+  );
 
   const [playlist, setPlaylist] = useState(null);
-  const [indexSong, setIndexSong] = useState(null);
+  const [indexSong, setIndexSong] = useState(0);
   const [albums, setAlbums] = useState(null);
-  const [currentPid, setCurrentPid] = useState(currentPlaylist);
+  const [currentPid, setCurrentPid] = useState(albumId);
 
   useEffect(() => {
     const fetchDataHome = async () => {
@@ -40,53 +40,46 @@ function Album() {
   }, [currentPid]);
 
   useEffect(() => {
-    if (controlPlayer.isShuffling) {
+    if (isShuffling) {
       let randomIndex = Math.floor(Math.random() * playlist?.song.items.length);
-
-      dispatch(
-        actions.setPlaylist({
-          sid: playlist?.song.items[randomIndex].encodeId,
-        })
-      );
-
+      dispatch(actions.setSongId(playlist?.song.items[randomIndex].encodeId));
       setIndexSong(randomIndex);
     } else {
-      if (controlPlayer.isNext) {
+      if (nextMusic) {
         setIndexSong(indexSong + 1);
         if (indexSong < playlist?.song.items.length - 1) {
           dispatch(
-            actions.setPlaylist({
-              sid: playlist?.song.items[indexSong + 1].encodeId,
-            })
+            actions.setSongId(playlist?.song.items[indexSong + 1].encodeId)
           );
+          dispatch(actions.setPlay(true));
         } else {
-          dispatch(
-            actions.setPlaylist({ sid: playlist?.song.items[0].encodeId })
-          );
+          dispatch(actions.setSongId(playlist?.song.items[0].encodeId));
+          dispatch(actions.setPlay(true));
           setIndexSong(0);
         }
       }
-
-      if (controlPlayer.isBack) {
+      if (backMusic) {
         setIndexSong(indexSong - 1);
         if (indexSong > 0) {
           dispatch(
-            actions.setPlaylist({
-              sid: playlist?.song.items[indexSong - 1].encodeId,
-            })
+            actions.setSongId(playlist?.song.items[indexSong - 1].encodeId)
           );
+          dispatch(actions.setPlay(true));
         } else {
           dispatch(
-            actions.setPlaylist({
-              sid: playlist?.song.items[playlist?.song.items.length - 1]
-                .encodeId,
-            })
+            actions.setSongId(
+              playlist?.song.items[playlist?.song.items.length - 1].encodeId
+            )
           );
+          dispatch(actions.setPlay(true));
           setIndexSong(playlist?.song.items.length - 1);
         }
       }
     }
-  }, [controlPlayer]);
+    console.log(1);
+  }, [dispatch, nextMusic, backMusic]);
+
+  console.log("re-render-album");
 
   return (
     <div className={cx("wrapper")}>
@@ -138,7 +131,9 @@ function Album() {
                   })}
                   onClick={() => {
                     setIndexSong(index);
-                    dispatch(actions.setPlaylist({ sid: item.encodeId }));
+                    dispatch(actions.setSongId(item.encodeId));
+                    dispatch(actions.setPlay(true));
+                    dispatch(actions.setPlaylist(playlist.song.items));
                   }}
                 >
                   <div className={cx("media-left")}>
@@ -222,4 +217,4 @@ function Album() {
   );
 }
 
-export default Album;
+export default memo(Album);

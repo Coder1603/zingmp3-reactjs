@@ -1,0 +1,16 @@
+
+- Reload trình duyệt có lỗi
+- Scroll list bài hát trang album
+- Hiệu ứng đang play nhạc cho trang album   
+- Màn hình trang album hiển thị tại bài hát
+- Điều chỉnh âm thanh lớn nhỏ
+- Next/back page
+- Chưa play nhạc bài đầu khi click vào album
+- Chưa làm phần search input
+- Kéo thanh tua nhạc rê ra ngoài lỗi
+- Không next bài hát được khi out khỏi trang album
+- Play nhạc album chỉ chi nhấn nút play của album
+- Chưa next được bài hát ở trang Home
+- Ngày phát hành ca khúc của bài hát trang chủ
+- Thêm hover cho tên tác giả
+- Hiện nút chơi nhạc cho bài hát đang play 

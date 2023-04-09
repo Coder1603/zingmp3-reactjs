@@ -2,6 +2,7 @@ import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 
 import styles from "./Button.module.scss";
+import { memo } from "react";
 
 const cx = classNames.bind(styles);
 
@@ -64,4 +65,4 @@ function Button({
   );
 }
 
-export default Button;
+export default memo(Button);

@@ -1,3 +1,3 @@
 export * from "./songId";
-export * from "./playlistId";
+export * from "./album";
 export * from "./controlplayer";

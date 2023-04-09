@@ -1,17 +1,8 @@
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBackwardStep,
-  faCirclePause,
-  faCirclePlay,
-  faEllipsisVertical,
-  faForwardStep,
-  faHeart,
-  faRepeat,
-  faShuffle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical, faHeart } from "@fortawesome/free-solid-svg-icons";
 import TippyToolTip from "@tippyjs/react";
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BsWindowFullscreen } from "react-icons/bs";
 import { GiMicrophone } from "react-icons/gi";
 import { BiVolumeFull } from "react-icons/bi";
@@ -22,115 +13,136 @@ import styles from "./PlayerControl.module.scss";
 import * as apis from "~/apis";
 import * as actions from "~/redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { BsPauseCircle, BsPlayCircle } from "react-icons/bs";
+import { AiOutlineStepBackward, AiOutlineStepForward } from "react-icons/ai";
+
+import { BsRepeat, BsShuffle } from "react-icons/bs";
 
 const cx = classNames.bind(styles);
 
 function PlayerControl() {
   const dispatch = useDispatch();
 
-  const sid = useSelector((state) => state.sidReducer.sid); // sid bug render liên tục khi play nhạc
-  const playlistSid = useSelector((state) => state.playlist.sid);
+  const { songId, isPlaying, isShuffling, playlist } = useSelector(
+    (state) => state.controlPlayer
+  );
+  console.log(playlist);
 
   const refbar = useRef();
-
-  const [curSongId, setCurSongId] = useState(null);
-  const [isShuffling, setIsShuffling] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(new Audio());
   const [isRepeating, setIsRepeating] = useState(false);
   const [audio, setAudio] = useState(new Audio());
   const [songInf, setSongInf] = useState(null);
   const [widthDuration, setWidthDuration] = useState(0);
-  const [song, setSong] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  const endedSong = audio.duration - audio.currentTime === 0;
+  const endedSong = useMemo(() => {
+    return audio.duration - audio.currentTime === 0;
+  }, [audio]);
 
-  const handleMouseDown = () => {
+  const handleMouseDown = useCallback(() => {
     setIsDragging(true);
-  };
+  }, []);
 
-  const handleMouseMove = (e) => {
-    if (isDragging) {
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (isDragging) {
+        const trackRef = refbar.current.getBoundingClientRect();
+        const percent = ((e.clientX - trackRef.left) / trackRef.width) * 100;
+        setWidthDuration(percent);
+      }
+    },
+    [isDragging]
+  );
+
+  const handleMouseUp = useCallback(
+    (e) => {
+      setIsDragging(false);
       const trackRef = refbar.current.getBoundingClientRect();
       const percent = ((e.clientX - trackRef.left) / trackRef.width) * 100;
-      setWidthDuration(percent);
-    }
-  };
+      audio.currentTime = (audio.duration * percent) / 100;
+    },
+    [audio]
+  );
 
-  const handleMouseUp = (e) => {
-    setIsDragging(false);
-    const trackRef = refbar.current.getBoundingClientRect();
-    const percent = ((e.clientX - trackRef.left) / trackRef.width) * 100;
-    audio.currentTime = (audio.duration * percent) / 100;
-  };
-
-  const currentTimeSong =
-    Math.floor(audio.currentTime / 60)
-      .toString()
-      .padStart(2, "0") +
-    ":" +
-    Math.floor(audio.currentTime - Math.floor(audio.currentTime / 60) * 60)
-      .toString()
-      .padStart(2, "0");
-
-  const timeLeftSong =
-    Math.floor((audio.duration - audio.currentTime) / 60)
-      .toString()
-      .padStart(2, "0") +
-    ":" +
-    Math.floor(
-      audio.duration -
-        audio.currentTime -
-        Math.floor((audio.duration - audio.currentTime) / 60) * 60
-    )
-      .toString()
-      .padStart(2, "0");
-
-  const handleClickBack = () => {
-    dispatch(
-      actions.setControlPlayer({
-        isBack: Math.random(),
-        isShuffling: isShuffling,
-      })
+  const currentTimeSong = useMemo(() => {
+    return (
+      Math.floor(audio.currentTime / 60)
+        .toString()
+        .padStart(2, "0") +
+      ":" +
+      Math.floor(audio.currentTime - Math.floor(audio.currentTime / 60) * 60)
+        .toString()
+        .padStart(2, "0")
     );
-  };
+  }, [audio.currentTime]);
 
-  const handleClickNext = () => {
-    dispatch(
-      actions.setControlPlayer({
-        isNext: Math.random(),
-        isShuffling: isShuffling,
-      })
+  const timeLeftSong = useMemo(() => {
+    return (
+      Math.floor((audio.duration - audio.currentTime) / 60)
+        .toString()
+        .padStart(2, "0") +
+      ":" +
+      Math.floor(
+        audio.duration -
+          audio.currentTime -
+          Math.floor((audio.duration - audio.currentTime) / 60) * 60
+      )
+        .toString()
+        .padStart(2, "0")
     );
-  };
+  }, [audio.duration, audio.currentTime]);
+
+  const handleClickBack = useCallback(() => {
+    dispatch(actions.setBackMusic(Math.random()));
+    dispatch(actions.setNextMusic(false));
+    dispatch(actions.setPlay(true));
+  }, [dispatch]);
+
+  const handleClickNext = useCallback(() => {
+    dispatch(actions.setNextMusic(Math.random()));
+    dispatch(actions.setBackMusic(false));
+    dispatch(actions.setPlay(true));
+  }, [dispatch]);
+
+  const handleClickShuffle = useCallback(
+    () => dispatch(actions.setShuffle(!isShuffling)),
+    [dispatch, isShuffling]
+  );
 
   useEffect(() => {
     audio.addEventListener("ended", handleClickNext);
-  }, [endedSong]);
+    return () => {
+      audio.removeEventListener("ended", handleClickNext);
+    };
+  }, [audio, handleClickNext, endedSong]);
 
   useEffect(() => {
     const fetchDetailSong = async () => {
       const [res1, res2] = await Promise.all([
-        apis.getDetailSong(curSongId),
-        apis.getSong(curSongId),
+        apis.getDetailSong(songId),
+        apis.getSong(songId),
       ]);
       if (res1.data.err === 0) {
         setSongInf(res1.data.data);
       }
       if (res2.data.err === 0) {
-        audio.pause();
-        setAudio(new Audio(res2.data.data["128"]));
+        audioRef.current.pause();
+        audioRef.current.src = res2.data.data["128"];
+        audioRef.current.load();
+        audioRef.current.play();
+        setAudio(audioRef.current);
       } else {
-        setAudio(new Audio());
-        setIsPlaying(false);
-        audio.pause();
         handleClickNext();
+        // audioRef.current.pause();
+        // audioRef.current.src = "";
+        // audioRef.current.load();
+        // setAudio(audioRef.current);
+        // dispatch(actions.setPlay(false));
       }
-
-      setSong(res2.data.err === 0);
     };
     fetchDetailSong();
-  }, [curSongId]);
+  }, [songId, handleClickNext, dispatch]);
 
   useEffect(() => {
     const updateWidth = () => {
@@ -144,43 +156,28 @@ function PlayerControl() {
   }, [audio, isDragging]);
 
   useEffect(() => {
-    if (window.location.pathname === "/") {
-      setCurSongId(sid);
-    } else {
-      setCurSongId(playlistSid);
-    }
-  }, [sid, playlistSid]);
-
-  useEffect(() => {
-    if (song) {
-      audio.load();
-      setIsPlaying(true);
-      audio.play();
-    }
-  }, [audio]);
-
-  useEffect(() => {
     if (isPlaying) {
-      audio.play();
+      audioRef.current.play();
     } else {
       audio.pause();
     }
-  }, [isPlaying]);
+  }, [isPlaying, audio]);
+  console.log("re-render-controlPlayer");
 
   return (
     <div className={cx("wrapper")}>
       <div className={cx("level-left")}>
         <div className={cx("media")}>
           <div className={cx("media-thumnail")}>
-            <img src={songInf?.album.thumbnail} alt="" />
+            <img src={songInf?.thumbnailM} alt="" />
           </div>
 
           <div className={cx("media-content")}>
             <div className={cx("content-name")}>
-              <span>{songInf?.album.title}</span>
+              <span>{songInf?.title}</span>
             </div>
             <div className={cx("content-artists")}>
-              <span>{songInf?.album.artistsNames}</span>
+              <span>{songInf?.artistsNames}</span>
             </div>
           </div>
 
@@ -207,36 +204,30 @@ function PlayerControl() {
         <div className={cx("center-action")}>
           <TippyToolTip content="Bật phát ngẫu nhiên">
             <div
-              onClick={() => setIsShuffling(!isShuffling)}
+              onClick={() => {
+                handleClickShuffle();
+              }}
               className={cx({ active: isShuffling })}
             >
               <Button className={cx("btn-icon")}>
-                <FontAwesomeIcon icon={faShuffle} />
+                <BsShuffle />
               </Button>
             </div>
           </TippyToolTip>
           <div onClick={handleClickBack}>
             <Button className={cx("btn-icon")}>
-              <FontAwesomeIcon icon={faBackwardStep} />
+              <AiOutlineStepBackward />
             </Button>
           </div>
           <button
-            onClick={() => {
-              if (song) {
-                setIsPlaying(!isPlaying);
-              }
-            }}
+            onClick={() => dispatch(actions.setPlay(!isPlaying))}
             className={cx("play-pause")}
           >
-            {isPlaying ? (
-              <FontAwesomeIcon icon={faCirclePause} />
-            ) : (
-              <FontAwesomeIcon icon={faCirclePlay} />
-            )}
+            {isPlaying ? <BsPauseCircle /> : <BsPlayCircle />}
           </button>
           <div onClick={handleClickNext}>
             <Button className={cx("btn-icon")}>
-              <FontAwesomeIcon icon={faForwardStep} />
+              <AiOutlineStepForward />
             </Button>
           </div>
           <TippyToolTip content="Bật phát lại tất cả">
@@ -245,7 +236,7 @@ function PlayerControl() {
               className={cx({ active: isRepeating })}
             >
               <Button className={cx("btn-icon")}>
-                <FontAwesomeIcon icon={faRepeat} />
+                <BsRepeat />
               </Button>
             </div>
           </TippyToolTip>
@@ -316,4 +307,4 @@ function PlayerControl() {
   );
 }
 
-export default PlayerControl;
+export default memo(PlayerControl);

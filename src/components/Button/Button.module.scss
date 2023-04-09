@@ -9,6 +9,12 @@
   position: relative;
 }
 
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .arrow {
   width: 44px;
   height: 24px;

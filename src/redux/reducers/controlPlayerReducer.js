@@ -1,18 +1,57 @@
 import { actionTypes } from "../actions/actionType";
 
 const initialState = {
-  isNext: null,
-  isBack: null,
+  songId: null,
   isShuffling: false,
+  isPlaying: false,
+  backMusic: null,
+  nextMusic: null,
+  playList: null,
+  indexSong: 0,
 };
 
 const controlPlayerReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SET_CONTROLPLAYER: {
+    case actionTypes.SET_SONGID: {
       return {
-        isNext: action.payload.isNext || null,
-        isBack: action.payload.isBack || null,
-        isShuffling: action.payload.isShuffling || false,
+        ...state,
+        songId: action.songId || state.songId,
+      };
+    }
+    case actionTypes.SET_PLAY: {
+      return {
+        ...state,
+        isPlaying: action.flag || false,
+      };
+    }
+    case actionTypes.SET_SHUFFLE: {
+      return {
+        ...state,
+        isShuffling: action.flag || false,
+      };
+    }
+    case actionTypes.SET_BACKMUSIC: {
+      return {
+        ...state,
+        backMusic: action.flag || null,
+      };
+    }
+    case actionTypes.SET_NEXTMUSIC: {
+      return {
+        ...state,
+        nextMusic: action.flag || null,
+      };
+    }
+    case actionTypes.SET_PLAYLIST: {
+      return {
+        ...state,
+        playlist: action.playlist || state.playlist,
+      };
+    }
+    case actionTypes.SET_INDEXSONGPLAYLIST: {
+      return {
+        ...state,
+        indexSongPlaylist: action.index || 0,
       };
     }
     default:
