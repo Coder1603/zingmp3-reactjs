@@ -6,55 +6,25 @@ import Tippy from "@tippyjs/react/headless";
 
 import styles from "./Header.module.scss";
 import {
-  faAngleRight,
   faArrowLeftLong,
   faArrowRightLong,
-  faBan,
-  faCircleInfo,
-  faCirclePlay,
   faDownload,
-  faFileLines,
   faGear,
   faGem,
-  faMagnifyingGlass,
-  faPhone,
-  faRectangleAd,
-  faShieldHalved,
   faShirt,
-  faX,
 } from "@fortawesome/free-solid-svg-icons";
-import { useRef, useState } from "react";
+import { memo, useState } from "react";
 
 import Button from "~/components/Button";
 import Popper from "~/components/Popper";
-import Accounts from "~/components/Accounts";
 import MENU_LIST from "~/untils/menu";
+import Search from "~/components/Search";
 
 const cx = classNames.bind(styles);
 
 function Header() {
-  const [inputValue, setInputValue] = useState("");
   const [backDisabled, setBackDisabled] = useState(false);
   const [nextDisabled, setNextDisabled] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const inputRef = useRef(null);
-
-  const handleBlur = () => {
-    setIsVisible(false);
-  };
-
-  const handleHidden = () => {
-    setIsVisible(false);
-  };
-
-  const handleInput = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleDeleteValueInput = () => {
-    inputRef.current.focus();
-    setInputValue("");
-  };
 
   return (
     <div className={cx("wrapper")}>
@@ -65,49 +35,7 @@ function Header() {
         <Button disabled={nextDisabled} className={cx("arrow")}>
           <FontAwesomeIcon icon={faArrowRightLong} />
         </Button>
-
-        <div className={cx("search", { activeSearch: isVisible })}>
-          <Button
-            leftIcon={<FontAwesomeIcon icon={faMagnifyingGlass} />}
-            className={cx("search-btn")}
-          ></Button>
-          <div className={cx("aaa")} style={{ width: "100%" }}>
-            <Tippy
-              interactive
-              visible={isVisible}
-              onHidden={handleHidden}
-              render={(attrs) => (
-                <div className="box" tabIndex="-1" {...attrs}>
-                  <Popper search>
-                    <h5>Đề xuất cho bạn</h5>
-                    <Accounts />
-                    <Accounts />
-                    <Accounts />
-                    <Accounts />
-                  </Popper>
-                </div>
-              )}
-            >
-              <input
-                value={inputValue}
-                onFocus={() => setIsVisible(true)}
-                onChange={handleInput}
-                ref={inputRef}
-                onBlur={handleBlur}
-                className={cx("search-input")}
-                type="text"
-                placeholder="Tìm kiếm bài hát, nghệ sĩ, lời bài hát..."
-              />
-            </Tippy>
-          </div>
-          {inputValue && (
-            <Button
-              onClick={handleDeleteValueInput}
-              rightIcon={<FontAwesomeIcon icon={faX} />}
-              className={cx("clear-btn")}
-            ></Button>
-          )}
-        </div>
+        <Search />
       </div>
       <div className={cx("level-right")}>
         <Button
@@ -254,4 +182,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default memo(Header);

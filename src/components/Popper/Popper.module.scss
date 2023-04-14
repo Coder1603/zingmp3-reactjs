@@ -8,6 +8,9 @@
   top: 60px;
   right: -100%;
   color: var(--text-primary);
+  height: auto;
+  max-height: calc(100vh - 300px);
+  overflow: scroll;
 }
 
 .wrapper.menu {

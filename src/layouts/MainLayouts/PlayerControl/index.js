@@ -17,17 +17,15 @@ import { BsPauseCircle, BsPlayCircle } from "react-icons/bs";
 import { AiOutlineStepBackward, AiOutlineStepForward } from "react-icons/ai";
 
 import { BsRepeat, BsShuffle } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 function PlayerControl() {
   const dispatch = useDispatch();
-
-  const { songId, isPlaying, isShuffling, playlist } = useSelector(
+  const { songId, isPlaying, isShuffling, playlist, indexSong } = useSelector(
     (state) => state.controlPlayer
   );
-  console.log(playlist);
-
   const refbar = useRef();
   const audioRef = useRef(new Audio());
   const [isRepeating, setIsRepeating] = useState(false);
@@ -93,17 +91,42 @@ function PlayerControl() {
     );
   }, [audio.duration, audio.currentTime]);
 
+  const isShufflingRef = useRef();
+  isShufflingRef.current = isShuffling;
+
   const handleClickBack = useCallback(() => {
-    dispatch(actions.setBackMusic(Math.random()));
-    dispatch(actions.setNextMusic(false));
+    if (isShufflingRef.current) {
+      let randomIndex = Math.floor(Math.random() * playlist.length);
+      dispatch(actions.setSongId(playlist[randomIndex].encodeId));
+      dispatch(actions.setIndexSongPlaylist(randomIndex));
+    } else {
+      if (indexSong > 0) {
+        dispatch(actions.setSongId(playlist[indexSong - 1].encodeId));
+        dispatch(actions.setIndexSongPlaylist(indexSong - 1));
+      } else {
+        dispatch(actions.setSongId(playlist[playlist.length - 1].encodeId));
+        dispatch(actions.setIndexSongPlaylist(playlist.length - 1));
+      }
+    }
     dispatch(actions.setPlay(true));
-  }, [dispatch]);
+  }, [dispatch, playlist, indexSong]);
 
   const handleClickNext = useCallback(() => {
-    dispatch(actions.setNextMusic(Math.random()));
-    dispatch(actions.setBackMusic(false));
+    if (isShufflingRef.current) {
+      let randomIndex = Math.floor(Math.random() * playlist.length);
+      dispatch(actions.setSongId(playlist[randomIndex].encodeId));
+      dispatch(actions.setIndexSongPlaylist(randomIndex));
+    } else {
+      if (indexSong < playlist.length - 1) {
+        dispatch(actions.setSongId(playlist[indexSong + 1].encodeId));
+        dispatch(actions.setIndexSongPlaylist(indexSong + 1));
+      } else {
+        dispatch(actions.setSongId(playlist[0].encodeId));
+        dispatch(actions.setIndexSongPlaylist(0));
+      }
+    }
     dispatch(actions.setPlay(true));
-  }, [dispatch]);
+  }, [dispatch, playlist, indexSong]);
 
   const handleClickShuffle = useCallback(
     () => dispatch(actions.setShuffle(!isShuffling)),
@@ -134,11 +157,6 @@ function PlayerControl() {
         setAudio(audioRef.current);
       } else {
         handleClickNext();
-        // audioRef.current.pause();
-        // audioRef.current.src = "";
-        // audioRef.current.load();
-        // setAudio(audioRef.current);
-        // dispatch(actions.setPlay(false));
       }
     };
     fetchDetailSong();
@@ -162,148 +180,163 @@ function PlayerControl() {
       audio.pause();
     }
   }, [isPlaying, audio]);
+
+  const handleBeforeUnload = useCallback(() => {
+    dispatch(actions.setPlay(false));
+  }, [dispatch]);
+
+  useEffect(() => {
+    window.onbeforeunload = handleBeforeUnload;
+
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, [handleBeforeUnload]);
+
   console.log("re-render-controlPlayer");
 
   return (
-    <div className={cx("wrapper")}>
-      <div className={cx("level-left")}>
-        <div className={cx("media")}>
-          <div className={cx("media-thumnail")}>
-            <img src={songInf?.thumbnailM} alt="" />
-          </div>
-
-          <div className={cx("media-content")}>
-            <div className={cx("content-name")}>
-              <span>{songInf?.title}</span>
+    songInf && (
+      <div className={cx("wrapper")}>
+        <div className={cx("level-left")}>
+          <Link to={playlist[0].album?.link} className={cx("media")}>
+            <div className={cx("media-thumnail")}>
+              <img src={songInf.thumbnailM} alt="" />
             </div>
-            <div className={cx("content-artists")}>
-              <span>{songInf?.artistsNames}</span>
-            </div>
-          </div>
 
-          <div className={cx("media-icon")}>
-            <TippyToolTip content="Thêm vào thư viện">
-              <div>
+            <div className={cx("media-content")}>
+              <div className={cx("content-name")}>
+                <span>{songInf.title}</span>
+              </div>
+              <div className={cx("content-artists")}>
+                <span>{songInf.artistsNames}</span>
+              </div>
+            </div>
+
+            <div className={cx("media-icon")}>
+              <TippyToolTip content="Thêm vào thư viện">
+                <div>
+                  <Button className={cx("btn-icon")}>
+                    <FontAwesomeIcon icon={faHeart} />
+                  </Button>
+                </div>
+              </TippyToolTip>
+
+              <TippyToolTip content="Xem thêm">
+                <div>
+                  <Button className={cx("btn-icon")}>
+                    <FontAwesomeIcon icon={faEllipsisVertical} />
+                  </Button>
+                </div>
+              </TippyToolTip>
+            </div>
+          </Link>
+        </div>
+        <div className={cx("level-center")}>
+          <div className={cx("center-action")}>
+            <TippyToolTip content="Bật phát ngẫu nhiên">
+              <div
+                onClick={() => {
+                  handleClickShuffle();
+                }}
+                className={cx({ active: isShuffling })}
+              >
                 <Button className={cx("btn-icon")}>
-                  <FontAwesomeIcon icon={faHeart} />
+                  <BsShuffle />
                 </Button>
               </div>
             </TippyToolTip>
-
-            <TippyToolTip content="Xem thêm">
-              <div>
+            <div onClick={handleClickBack}>
+              <Button className={cx("btn-icon")}>
+                <AiOutlineStepBackward />
+              </Button>
+            </div>
+            <button
+              onClick={() => dispatch(actions.setPlay(!isPlaying))}
+              className={cx("play-pause")}
+            >
+              {isPlaying ? <BsPauseCircle /> : <BsPlayCircle />}
+            </button>
+            <div onClick={handleClickNext}>
+              <Button className={cx("btn-icon")}>
+                <AiOutlineStepForward />
+              </Button>
+            </div>
+            <TippyToolTip content="Bật phát lại tất cả">
+              <div
+                onClick={() => setIsRepeating(!isRepeating)}
+                className={cx({ active: isRepeating })}
+              >
                 <Button className={cx("btn-icon")}>
-                  <FontAwesomeIcon icon={faEllipsisVertical} />
+                  <BsRepeat />
                 </Button>
               </div>
             </TippyToolTip>
           </div>
-        </div>
-      </div>
-      <div className={cx("level-center")}>
-        <div className={cx("center-action")}>
-          <TippyToolTip content="Bật phát ngẫu nhiên">
-            <div
-              onClick={() => {
-                handleClickShuffle();
-              }}
-              className={cx({ active: isShuffling })}
-            >
-              <Button className={cx("btn-icon")}>
-                <BsShuffle />
-              </Button>
-            </div>
-          </TippyToolTip>
-          <div onClick={handleClickBack}>
-            <Button className={cx("btn-icon")}>
-              <AiOutlineStepBackward />
-            </Button>
-          </div>
-          <button
-            onClick={() => dispatch(actions.setPlay(!isPlaying))}
-            className={cx("play-pause")}
-          >
-            {isPlaying ? <BsPauseCircle /> : <BsPlayCircle />}
-          </button>
-          <div onClick={handleClickNext}>
-            <Button className={cx("btn-icon")}>
-              <AiOutlineStepForward />
-            </Button>
-          </div>
-          <TippyToolTip content="Bật phát lại tất cả">
-            <div
-              onClick={() => setIsRepeating(!isRepeating)}
-              className={cx({ active: isRepeating })}
-            >
-              <Button className={cx("btn-icon")}>
-                <BsRepeat />
-              </Button>
-            </div>
-          </TippyToolTip>
-        </div>
 
-        <div className={cx("center-duration")}>
-          <span className={cx("time", "left")}>{currentTimeSong}</span>
+          <div className={cx("center-duration")}>
+            <span className={cx("time", "left")}>{currentTimeSong}</span>
 
-          <div
-            ref={refbar}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            className={cx("duration-bar")}
-          >
             <div
-              className={cx("bar-cover")}
-              style={{
-                width: `${widthDuration}%`,
-              }}
+              ref={refbar}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              className={cx("duration-bar")}
             >
-              <div className={cx("bar-circle")}></div>
+              <div
+                className={cx("bar-cover")}
+                style={{
+                  width: `${widthDuration}%`,
+                }}
+              >
+                <div className={cx("bar-circle")}></div>
+              </div>
             </div>
+            <span className={cx("time", "right")}>
+              {timeLeftSong === "NaN:NaN" ? "00:00" : timeLeftSong}
+            </span>
           </div>
-          <span className={cx("time", "right")}>
-            {timeLeftSong === "NaN:NaN" ? "00:00" : timeLeftSong}
-          </span>
         </div>
-      </div>
-      <div className={cx("level-right")}>
-        <Button btnMv className={cx("btn-icon")}>
-          <MdOutlineVideoLibrary />
-        </Button>
-        <TippyToolTip content="Xem lời bài hát">
-          <div>
-            <Button className={cx("btn-icon")}>
-              <GiMicrophone />
-            </Button>
-          </div>
-        </TippyToolTip>
-        <TippyToolTip content="Chế độ cửa sổ">
-          <div>
-            <Button className={cx("btn-icon")}>
-              <BsWindowFullscreen />
-            </Button>
-          </div>
-        </TippyToolTip>
-        <div className={cx("volume")}>
-          <Button className={cx("btn-icon")}>
-            <BiVolumeFull />
+        <div className={cx("level-right")}>
+          <Button btnMv className={cx("btn-icon")}>
+            <MdOutlineVideoLibrary />
           </Button>
-          <div className={cx("duration-bar", "volume-bar")}>
-            <div className={cx("bar-cover")}>
-              <div className={cx("bar-circle")}></div>
+          <TippyToolTip content="Xem lời bài hát">
+            <div>
+              <Button className={cx("btn-icon")}>
+                <GiMicrophone />
+              </Button>
+            </div>
+          </TippyToolTip>
+          <TippyToolTip content="Chế độ cửa sổ">
+            <div>
+              <Button className={cx("btn-icon")}>
+                <BsWindowFullscreen />
+              </Button>
+            </div>
+          </TippyToolTip>
+          <div className={cx("volume")}>
+            <Button className={cx("btn-icon")}>
+              <BiVolumeFull />
+            </Button>
+            <div className={cx("duration-bar", "volume-bar")}>
+              <div className={cx("bar-cover")}>
+                <div className={cx("bar-circle")}></div>
+              </div>
             </div>
           </div>
+          <div className={cx("divide")}></div>
+          <TippyToolTip content="Danh sách phát">
+            <div className={cx("list-play")}>
+              <Button className={cx("btn-icon")}>
+                <MdQueueMusic />
+              </Button>
+            </div>
+          </TippyToolTip>
         </div>
-        <div className={cx("divide")}></div>
-        <TippyToolTip content="Danh sách phát">
-          <div className={cx("list-play")}>
-            <Button className={cx("btn-icon")}>
-              <MdQueueMusic />
-            </Button>
-          </div>
-        </TippyToolTip>
       </div>
-    </div>
+    )
   );
 }
 

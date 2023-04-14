@@ -15,22 +15,12 @@ export const setShuffle = (flag) => ({
   flag,
 });
 
-export const setBackMusic = (flag) => ({
-  type: actionTypes.SET_BACKMUSIC,
-  flag,
-});
-
-export const setNextMusic = (flag) => ({
-  type: actionTypes.SET_NEXTMUSIC,
-  flag,
-});
-
 export const setPlaylist = (playlist) => ({
   type: actionTypes.SET_PLAYLIST,
   playlist,
 });
 
-export const setIndexSongPlaylist = (index) => ({
+export const setIndexSongPlaylist = (indexSong) => ({
   type: actionTypes.SET_INDEXSONGPLAYLIST,
-  index,
+  indexSong,
 });

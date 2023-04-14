@@ -6,10 +6,12 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Sidebar.module.scss";
 import Button from "~/components/Button";
 import SIDE_BAR from "~/untils/sidebar";
+import { useSelector } from "react-redux";
 
 const cx = classNames.bind(styles);
 
 function Sidebar() {
+  const { songId } = useSelector((state) => state.controlPlayer);
   const location = useLocation();
   return (
     <div className={cx("wrapper")}>
@@ -58,13 +60,15 @@ function Sidebar() {
           )}
         </ul>
       </div>
-      <Button
-        stickySidebar
-        leftIcon={<FontAwesomeIcon icon={faPlus} />}
-        className={cx("sticky-sidebar")}
-      >
-        <span>Tạo playlist mới</span>
-      </Button>
+      <div className={cx("sticky-sidebar", { bottom_90px: songId })}>
+        <Button>
+          <FontAwesomeIcon icon={faPlus} />
+          <span style={{ marginLeft: "4px", fontWeight: 500 }}>
+            {" "}
+            Tạo playlist mới
+          </span>
+        </Button>
+      </div>
     </div>
   );
 }

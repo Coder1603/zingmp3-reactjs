@@ -1,24 +1,21 @@
 import {
   faChevronLeft,
   faChevronRight,
-  faEllipsisVertical,
-  faPlay,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { memo, useCallback, useEffect, useState } from "react";
-import TippyToolTip from "@tippyjs/react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { NEW_MUSIC } from "~/untils/homeConst";
 import styles from "./Home.module.scss";
 import * as apis from "~/apis";
-import Button from "~/components/Button/Button";
 import * as actions from "~/redux/actions";
 import { BsPlayCircle } from "react-icons/bs";
 import { GrNext } from "react-icons/gr";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import MusicItem from "~/components/MusicItem";
 
 const cx = classNames.bind(styles);
 
@@ -28,7 +25,6 @@ function Home() {
   const [translateSlideXBxh, setTranslateSlideXBxh] = useState("0");
   const [activeId, setActiveId] = useState(0);
   const [sortNewMusic, setSortNewMusic] = useState("all");
-  const [indexSong, setIndexSong] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -97,8 +93,8 @@ function Home() {
     fetchDataHome();
   }, []);
 
-  console.log("re-render-home");
-  // console.log(dataHome.items[3]);
+  // console.log("re-render-home");
+
   return (
     dataHome && (
       <div className={cx("wrapper")}>
@@ -167,20 +163,11 @@ function Home() {
               (music, index) =>
                 index < 12 && (
                   <div key={index} className={cx("container-colum")}>
-                    <div
+                    {/* <div
                       className={cx("music", {
-                        active: indexSong === index,
+                        active: songId === music.encodeId,
                       })}
-                      onClick={() => {
-                        setIndexSong(index);
-                        dispatch(actions.setPlay(true));
-                        dispatch(actions.setSongId(music.encodeId));
-                        dispatch(
-                          actions.setPlaylist(
-                            dataHome.items[3].items[sortNewMusic]
-                          )
-                        );
-                      }}
+                      onClick={() => handleClickSong(music, index)}
                     >
                       <div className={cx("media-left")}>
                         <img
@@ -190,7 +177,11 @@ function Home() {
                         />
                         <div className={cx("opacity")}></div>
                         <button className={cx("btn-play")}>
-                          <FontAwesomeIcon icon={faPlay} />
+                          {songId === music.encodeId && isPlaying ? (
+                            <BsPauseCircle />
+                          ) : (
+                            <BsPlayCircle />
+                          )}
                         </button>
                       </div>
                       <div className={cx("inf")}>
@@ -213,7 +204,14 @@ function Home() {
                           </Button>
                         </div>
                       </TippyToolTip>
-                    </div>
+                    </div> */}
+                    <MusicItem
+                      music={music}
+                      index={index}
+                      time
+                      home
+                      sortNewMusic={sortNewMusic}
+                    />
                   </div>
                 )
             )}

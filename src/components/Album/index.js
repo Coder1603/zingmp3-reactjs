@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { IoMusicalNotesOutline } from "react-icons/io5";
@@ -11,6 +11,7 @@ import * as apis from "~/apis";
 import Button from "../Button/Button";
 import * as actions from "~/redux/actions";
 import { Link } from "react-router-dom";
+import { BsPauseCircle, BsPlayCircle } from "react-icons/bs";
 
 const cx = classNames.bind(styles);
 
@@ -18,14 +19,25 @@ function Album() {
   const dispatch = useDispatch();
 
   const { albumId } = useSelector((state) => state.album);
-  const { isShuffling, nextMusic, backMusic } = useSelector(
-    (state) => state.controlPlayer
-  );
+  const { songId, isPlaying } = useSelector((state) => state.controlPlayer);
 
-  const [playlist, setPlaylist] = useState(null);
-  const [indexSong, setIndexSong] = useState(0);
+  const [album, setAlbum] = useState(null);
   const [albums, setAlbums] = useState(null);
   const [currentPid, setCurrentPid] = useState(albumId);
+
+  const handleClickSong = useCallback(
+    (item, index) => {
+      dispatch(actions.setSongId(item.encodeId));
+      dispatch(actions.setIndexSongPlaylist(index));
+      dispatch(actions.setPlaylist(album.song.items));
+      if (songId === item.encodeId) {
+        dispatch(actions.setPlay(!isPlaying));
+      } else {
+        dispatch(actions.setPlay(true));
+      }
+    },
+    [dispatch, album, songId, isPlaying]
+  );
 
   useEffect(() => {
     const fetchDataHome = async () => {
@@ -33,159 +45,122 @@ function Album() {
         apis.getDetailPlaylist(currentPid),
         apis.getHome(),
       ]);
-      setPlaylist(res1.data.data);
-      setAlbums(res2.data.data.items[10]);
+      setAlbum(res1.data.data);
+      setAlbums(res2.data.data.items[7]);
     };
     fetchDataHome();
   }, [currentPid]);
 
-  useEffect(() => {
-    if (isShuffling) {
-      let randomIndex = Math.floor(Math.random() * playlist?.song.items.length);
-      dispatch(actions.setSongId(playlist?.song.items[randomIndex].encodeId));
-      setIndexSong(randomIndex);
-    } else {
-      if (nextMusic) {
-        setIndexSong(indexSong + 1);
-        if (indexSong < playlist?.song.items.length - 1) {
-          dispatch(
-            actions.setSongId(playlist?.song.items[indexSong + 1].encodeId)
-          );
-          dispatch(actions.setPlay(true));
-        } else {
-          dispatch(actions.setSongId(playlist?.song.items[0].encodeId));
-          dispatch(actions.setPlay(true));
-          setIndexSong(0);
-        }
-      }
-      if (backMusic) {
-        setIndexSong(indexSong - 1);
-        if (indexSong > 0) {
-          dispatch(
-            actions.setSongId(playlist?.song.items[indexSong - 1].encodeId)
-          );
-          dispatch(actions.setPlay(true));
-        } else {
-          dispatch(
-            actions.setSongId(
-              playlist?.song.items[playlist?.song.items.length - 1].encodeId
-            )
-          );
-          dispatch(actions.setPlay(true));
-          setIndexSong(playlist?.song.items.length - 1);
-        }
-      }
-    }
-    console.log(1);
-  }, [dispatch, nextMusic, backMusic]);
-
   console.log("re-render-album");
 
   return (
-    <div className={cx("wrapper")}>
-      <div className={cx("container-top")}>
-        <div className={cx("playlist-header")}>
-          <div className={cx("header-media")}>
-            <img src={playlist?.thumbnailM} alt="" />
-          </div>
-          <div className={cx("header-content")}>
-            <h3 className={cx("album-title")}>{playlist?.title}</h3>
-            <span className={cx("album-artists")}>
-              {playlist?.artists.map((artist, index) => (
-                <span key={index}>
-                  {artist.name}{" "}
-                  {index === playlist.artists.length - 1 ? "" : ", "}
-                </span>
-              ))}
-            </span>
-            <button className={cx("play-playlist")}>PHÁT NGẪU NHIÊN</button>
-            <Button album className={cx("btn-icon")}>
-              <FontAwesomeIcon icon={faEllipsisVertical} />
-            </Button>
-          </div>
-        </div>
-        <div className={cx("playlist-content")}>
-          <div className={cx("content-description")}>
-            <span className={cx("description-fixed")}>Lời tựa </span>
-            <span>{playlist?.description}</span>
-          </div>
-          <div className={cx("content-list")}>
-            <div className={cx("list-header")}>
-              <div className={cx("media-left")}>
-                <BiSortAlt2 className={cx("icon-music")} />
-                <div className={cx("colum-text")}>BÀI HÁT</div>
-              </div>
-              <div className={cx("media-center")}>
-                <div className={cx("colum-text")}>ALBUM</div>
-              </div>
-              <div className={cx("media-right")}>
-                <div className={cx("colum-text")}>THỜI GIAN</div>
-              </div>
+    album &&
+    albums && (
+      <div className={cx("wrapper")}>
+        <div className={cx("container-top")}>
+          <div className={cx("playlist-header")}>
+            <div className={cx("header-media")}>
+              <img src={album.thumbnailM} alt="" />
             </div>
-            <div className={cx("list-songs")}>
-              {playlist?.song.items.map((item, index) => (
-                <div
-                  key={index}
-                  className={cx("song-item", {
-                    active: indexSong === index,
-                  })}
-                  onClick={() => {
-                    setIndexSong(index);
-                    dispatch(actions.setSongId(item.encodeId));
-                    dispatch(actions.setPlay(true));
-                    dispatch(actions.setPlaylist(playlist.song.items));
-                  }}
-                >
-                  <div className={cx("media-left")}>
-                    <IoMusicalNotesOutline className={cx("icon-music")} />
-                    <div className={cx("media-img")}>
-                      <img src={item.thumbnail} alt="" />
-                    </div>
-                    <div className={cx("inf-song")}>
-                      <div className={cx("title-song")}>
-                        <span>{item.title}</span>
-                      </div>
-                      <div className={cx("artist-song")}>
-                        {item.artistsNames}
-                      </div>
-                    </div>
-                  </div>
-                  <div className={cx("media-center")}>
-                    <div className={cx("album-name")}>
-                      <span> {item.album?.title}</span>
-                    </div>
-                  </div>
-                  <div className={cx("media-right")}>
-                    <span className={cx("duration")}>{`${Math.floor(
-                      item.duration / 60
-                    )
-                      .toString()
-                      .padStart(2, "0")}:${(item.duration % 60)
-                      .toString()
-                      .padStart(2, "0")}`}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className={cx("content-subtitle")}>
-              <span>{playlist && `${playlist.song.total} bài hát`}</span>•
-              <span>
-                {playlist &&
-                  `${Math.floor(playlist.song.totalDuration / 60)} phút ${
-                    playlist.song.totalDuration % 60
-                  } giây`}
+            <div className={cx("header-content")}>
+              <h3 className={cx("album-title")}>{album.title}</h3>
+              <span className={cx("album-artists")}>
+                {album.artists.map((artist, index) => (
+                  <span key={index}>
+                    {artist.name}{" "}
+                    {index === album.artists.length - 1 ? "" : ", "}
+                  </span>
+                ))}
               </span>
+              <button className={cx("play-playlist")}>PHÁT NGẪU NHIÊN</button>
+              <Button album className={cx("btn-icon")}>
+                <FontAwesomeIcon icon={faEllipsisVertical} />
+              </Button>
+            </div>
+          </div>
+          <div className={cx("playlist-content")}>
+            <div className={cx("content-description")}>
+              <span className={cx("description-fixed")}>Lời tựa </span>
+              <span>{album.description}</span>
+            </div>
+            <div className={cx("content-list")}>
+              <div className={cx("list-header")}>
+                <div className={cx("media-left")}>
+                  <BiSortAlt2 className={cx("icon-music")} />
+                  <div className={cx("colum-text")}>BÀI HÁT</div>
+                </div>
+                <div className={cx("media-center")}>
+                  <div className={cx("colum-text")}>ALBUM</div>
+                </div>
+                <div className={cx("media-right")}>
+                  <div className={cx("colum-text")}>THỜI GIAN</div>
+                </div>
+              </div>
+              <div className={cx("song-list")}>
+                {album.song.items.map((item, index) => (
+                  <div
+                    key={index}
+                    className={cx("song-item", `song-${item.encodeId}`, {
+                      active: songId === item.encodeId,
+                    })}
+                    onClick={() => handleClickSong(item, index)}
+                  >
+                    <div className={cx("media-left")}>
+                      <IoMusicalNotesOutline className={cx("icon-music")} />
+                      <div className={cx("media-img")}>
+                        <img src={item.thumbnail} alt="" />
+                        <button className={cx("btn-play")}>
+                          {songId === item.encodeId && isPlaying ? (
+                            <BsPauseCircle />
+                          ) : (
+                            <BsPlayCircle />
+                          )}
+                        </button>
+                      </div>
+                      <div className={cx("inf-song")}>
+                        <div className={cx("title-song")}>
+                          <span>{item.title}</span>
+                        </div>
+                        <div className={cx("artist-song")}>
+                          {item.artistsNames}
+                        </div>
+                      </div>
+                    </div>
+                    <div className={cx("media-center")}>
+                      <div className={cx("album-name")}>
+                        <span> {item.album?.title}</span>
+                      </div>
+                    </div>
+                    <div className={cx("media-right")}>
+                      <span className={cx("duration")}>{`${Math.floor(
+                        item.duration / 60
+                      )
+                        .toString()
+                        .padStart(2, "0")}:${(item.duration % 60)
+                        .toString()
+                        .padStart(2, "0")}`}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className={cx("content-subtitle")}>
+                <span>{album && `${album.song.total} bài hát`}</span>•
+                <span>
+                  {album &&
+                    `${Math.floor(album.song.totalDuration / 60)} phút ${
+                      album.song.totalDuration % 60
+                    } giây`}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className={cx("related-albums")}>
-        <h3 className={cx("title")}>Có Thể Bạn Quan Tâm</h3>
-        <div className={cx("albums-container")}>
-          <div className={cx("albums")}>
-            {albums &&
-              albums.items.map((album, index) => (
+        <div className={cx("related-albums")}>
+          <h3 className={cx("title")}>Có Thể Bạn Quan Tâm</h3>
+          <div className={cx("albums-container")}>
+            <div className={cx("albums")}>
+              {albums.items.map((album, index) => (
                 <div key={index} className={cx("album")}>
                   <Link
                     className={cx("media-album")}
@@ -195,12 +170,12 @@ function Album() {
                     }}
                     to={album.link}
                   >
-                    <img src={album.thumbnailM} alt="{album.title}" />
+                    <img src={album.thumbnailM} alt={album.title} />
                   </Link>
                   <div className={cx("inf-album")}>
                     <div className={cx("title-album")}>{album.title}</div>
                     <div className={cx("artists-album")}>
-                      {album.artists.map((artist, index) => (
+                      {album.artists?.map((artist, index) => (
                         <span key={index}>
                           {artist.name}{" "}
                           {index === album.artists.length - 1 ? "" : ", "}
@@ -210,10 +185,11 @@ function Album() {
                   </div>
                 </div>
               ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    )
   );
 }
 

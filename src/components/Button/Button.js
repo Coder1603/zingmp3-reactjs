@@ -17,7 +17,6 @@ function Button({
   rightIcon,
   onClick,
   disabled,
-  stickySidebar,
   hided,
   sidebar,
   btnIcon,
@@ -49,7 +48,6 @@ function Button({
     [className]: className,
     disabled,
     sidebar,
-    stickySidebar,
     btnMv,
     album,
   });

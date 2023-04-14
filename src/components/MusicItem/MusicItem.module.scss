@@ -1,0 +1,141 @@
+.music {
+  align-items: center;
+  display: flex;
+  text-align: left;
+  padding: 10px;
+  border-radius: 5px;
+  user-select: none;
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin-right: 10px;
+  position: relative;
+  &:hover {
+    background-color: var(--alpha-bg);
+  }
+  &:hover .btn-play,
+  &:hover .three-dot,
+  &:hover .opacity {
+    opacity: 1;
+  }
+  &:hover .name-music {
+    max-width: 70%;
+  }
+}
+
+.music.active {
+  background-color: var(--alpha-bg);
+}
+
+.media-left {
+  position: relative;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--loading-bg);
+  margin-right: 10px;
+
+  &:hover .music-media {
+    transform: scale(1.1) translateZ(0);
+  }
+  &:hover .btn-section {
+    opacity: 1;
+  }
+  &:hover .opacity {
+    opacity: 1;
+  }
+}
+
+.opacity {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--dark-alpha-50);
+  opacity: 0;
+}
+
+.singer {
+  color: var(--text-secondary);
+  line-height: 1.33;
+  font-size: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: var(--purple-primary);
+  }
+}
+
+.search {
+  .media-new-music {
+    width: 100%;
+    width: 52px;
+    height: 52px;
+  }
+}
+
+.home {
+  .media-new-music {
+    width: 100%;
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.btn-play {
+  opacity: 0;
+  height: 18px;
+  width: 18px;
+  border-radius: 999px;
+  color: #fff;
+  position: absolute;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  cursor: pointer;
+}
+
+.inf {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: calc(100% - 60px - 46px - 10px);
+  //   width: 0;
+}
+
+.name-music {
+  line-height: 1.3;
+  text-transform: none;
+  font-weight: 500;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  text-transform: capitalize;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+  line-height: normal;
+}
+
+.time {
+  font-size: 1.2rem;
+  line-height: 18px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.three-dot {
+  opacity: 0;
+}
