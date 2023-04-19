@@ -33,7 +33,7 @@ function MusicItem({
       dispatch(actions.setIndexSongPlaylist(index));
       dispatch(actions.setPlay(true));
       if (home) {
-        dispatch(actions.setPlaylist(dataHome.items[3].items[sortNewMusic]));
+        dispatch(actions.setPlaylist(dataHome?.items[3].items[sortNewMusic]));
       }
       if (search) {
         dispatch(actions.setPlaylist(playlistSearch));

@@ -1,0 +1,59 @@
+// Slider
+
+.wrapper {
+  padding-top: 32px;
+  margin-bottom: 20px;
+  display: flex;
+  margin: 0 -15px;
+  position: relative;
+  user-select: none;
+  overflow: hidden;
+  &:hover .gallery-btn {
+    opacity: 1;
+  }
+}
+
+.gallery-item {
+  width: 33.333%;
+  padding: 0 15px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out,
+    z-index 0s linear 0.25s;
+  img {
+    z-index: 10;
+    border-radius: 8px;
+    width: 100%;
+  }
+}
+
+.gallery-btn {
+  opacity: 0;
+  transition: opacity 0.1s linear;
+  .navigation-btn {
+    width: 55px;
+    height: 55px;
+    color: #fff;
+  }
+  .back {
+    left: 25px;
+  }
+  .next {
+    right: 25px;
+  }
+}
+
+.navigation-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: hsla(0, 0%, 100%, 0.15);
+  box-shadow: 0 2px 4px 0 rgb(226 102 102 / 15%);
+  font-size: 3rem;
+  cursor: pointer;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  z-index: 9;
+}

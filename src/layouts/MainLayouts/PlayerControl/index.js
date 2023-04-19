@@ -182,7 +182,7 @@ function PlayerControl() {
   );
 
   useEffect(() => {
-    if (playlist.length !== indexSong + 1 || isRepeating) {
+    if ((playlist && playlist.length !== indexSong + 1) || isRepeating) {
       audio.addEventListener("ended", handleClickNext);
       return () => {
         audio.removeEventListener("ended", handleClickNext);

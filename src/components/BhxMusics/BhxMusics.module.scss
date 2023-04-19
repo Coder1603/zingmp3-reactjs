@@ -1,0 +1,230 @@
+.wrapper {
+  margin-top: 48px;
+}
+
+.title-section {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  text-transform: capitalize;
+  position: relative;
+}
+
+.more-section {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+  svg {
+    font-size: 17px;
+    margin-left: 6px;
+    polyline {
+      stroke: var(--text-secondary);
+    }
+  }
+}
+
+.container-content {
+  display: flex;
+  margin: 0 -15px;
+  position: relative;
+  user-select: none;
+  overflow: hidden;
+}
+
+.item-container {
+  width: 33.33333%;
+  min-height: 1px;
+  padding-left: 14px;
+  padding-right: 14px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease 0.1s;
+}
+
+.music-item {
+  display: flex;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #2f2639;
+}
+
+.wrapper-main {
+  position: relative;
+}
+
+.singer {
+  color: var(--text-secondary);
+  line-height: 1.33;
+  font-size: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: var(--purple-primary);
+  }
+}
+
+.media-left {
+  position: relative;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--loading-bg);
+  margin-right: 10px;
+
+  &:hover .music-media {
+    transform: scale(1.1) translateZ(0);
+  }
+  &:hover .btn-section {
+    opacity: 1;
+  }
+  &:hover .opacity {
+    opacity: 1;
+  }
+}
+
+.music-media {
+  width: 120px;
+  height: 120px;
+  transition: transform 0.7s;
+  color: #fff;
+}
+
+.opacity {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--dark-alpha-50);
+  opacity: 0;
+}
+
+.btn-section {
+  font-size: 4.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: transform 0.7s;
+  z-index: 1;
+  cursor: pointer;
+  color: #fff;
+}
+
+.music-content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-basis: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
+  text-align: left;
+  align-self: center;
+  width: 0;
+}
+
+.music-title {
+  display: flex;
+  align-items: center;
+  white-space: normal;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.38;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+}
+
+.music-artits {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 95%;
+}
+
+.singer {
+  color: var(--text-secondary);
+  line-height: 1.33;
+  font-size: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: var(--purple-primary);
+  }
+}
+
+.number-top {
+  opacity: 0.4;
+  -webkit-text-stroke: 1px #fff;
+  font-size: 40px;
+  font-weight: 900;
+  color: transparent;
+  line-height: 1;
+}
+
+.date-release {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 300;
+}
+
+.view-all {
+  height: 100%;
+  color: var(--purple-primary);
+  font-weight: 500;
+  text-transform: uppercase;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.navigation-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px 0 rgb(226 102 102 / 15%);
+  font-size: 22px;
+  cursor: pointer;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  z-index: 9;
+  background-color: #fff;
+  color: #474747;
+  width: 38px;
+  height: 38px;
+}
+
+.btn-bxh-left {
+  left: -19px;
+}
+
+.btn-bxh-right {
+  right: -19px;
+}
