@@ -1,9 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCirclePlay,
-  faMusic,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
 import { HiOutlineStopCircle } from "react-icons/hi2";
 import { ImFileMusic } from "react-icons/im";
 import { FaChartPie } from "react-icons/fa";

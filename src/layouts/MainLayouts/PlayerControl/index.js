@@ -26,13 +26,20 @@ function PlayerControl() {
   const { songId, isPlaying, isShuffling, playlist, indexSong } = useSelector(
     (state) => state.controlPlayer
   );
-  const refbar = useRef();
+  const refBarVolume = useRef();
+  const refBarAudio = useRef();
   const audioRef = useRef(new Audio());
+  const isShufflingRef = useRef();
+  isShufflingRef.current = isShuffling;
+
   const [isRepeating, setIsRepeating] = useState(false);
   const [audio, setAudio] = useState(new Audio());
   const [songInf, setSongInf] = useState(null);
   const [widthDuration, setWidthDuration] = useState(0);
+  const [widthDurationVolume, setWidthDurationVolume] = useState(100);
   const [isDragging, setIsDragging] = useState(false);
+  const [isAudioBarActive, setIsAudioBarActive] = useState(false);
+  const [muteVolume, setMuteVolume] = useState(false);
 
   const endedSong = useMemo(() => {
     return audio.duration - audio.currentTime === 0;
@@ -45,10 +52,20 @@ function PlayerControl() {
   const handleMouseMove = useCallback(
     (e) => {
       if (isDragging) {
-        const trackRef = refbar.current.getBoundingClientRect();
-        const percent = ((e.clientX - trackRef.left) / trackRef.width) * 100;
-        setWidthDuration(percent);
+        if (refBarAudio.current.contains(e.target)) {
+          const trackRef = refBarAudio.current.getBoundingClientRect();
+          const percent = ((e.clientX - trackRef.left) / trackRef.width) * 100;
+          setWidthDuration(percent);
+          setIsAudioBarActive(true);
+        } else if (refBarVolume.current.contains(e.target)) {
+          const trackRef = refBarVolume.current.getBoundingClientRect();
+          const percent = ((e.clientX - trackRef.left) / trackRef.width) * 100;
+          setWidthDurationVolume(percent);
+          setIsAudioBarActive(false);
+        }
       }
+
+      return;
     },
     [isDragging]
   );
@@ -56,13 +73,29 @@ function PlayerControl() {
   const handleMouseUp = useCallback(
     (e) => {
       setIsDragging(false);
-      const trackRef = refbar.current.getBoundingClientRect();
-      const percent = ((e.clientX - trackRef.left) / trackRef.width) * 100;
-      audio.currentTime = (audio.duration * percent) / 100;
+      if (refBarAudio.current.contains(e.target)) {
+        const trackRef = refBarAudio?.current?.getBoundingClientRect();
+        const percent = ((e.clientX - trackRef.left) / trackRef.width) * 100;
+        audio.currentTime = (audio.duration * percent) / 100;
+        setIsAudioBarActive(true);
+      } else if (refBarVolume.current.contains(e.target)) {
+        const trackRef = refBarVolume?.current?.getBoundingClientRect();
+        const percent = ((e.clientX - trackRef.left) / trackRef.width) * 100;
+        if (percent < 0) {
+          audio.volume = 0;
+          setWidthDurationVolume(0);
+        } else if (percent > 100) {
+          audio.volume = 1;
+          setWidthDurationVolume(100);
+        } else {
+          audio.volume = percent / 100;
+          setWidthDurationVolume(percent);
+        }
+        setIsAudioBarActive(false);
+      }
     },
-    [audio]
+    [audio, refBarAudio, refBarVolume]
   );
-
   const currentTimeSong = useMemo(() => {
     return (
       Math.floor(audio.currentTime / 60)
@@ -91,8 +124,23 @@ function PlayerControl() {
     );
   }, [audio.duration, audio.currentTime]);
 
-  const isShufflingRef = useRef();
-  isShufflingRef.current = isShuffling;
+  useEffect(() => {
+    if (isDragging) {
+      if (isAudioBarActive) {
+        const barRef = refBarAudio.current;
+        barRef.addEventListener("mouseleave", handleMouseUp);
+        return () => {
+          barRef.removeEventListener("mouseleave", handleMouseUp);
+        };
+      } else {
+        const barRef = refBarVolume.current;
+        barRef.addEventListener("mouseleave", handleMouseUp);
+        return () => {
+          barRef.removeEventListener("mouseleave", handleMouseUp);
+        };
+      }
+    }
+  }, [handleMouseUp, isDragging, isAudioBarActive]);
 
   const handleClickBack = useCallback(() => {
     if (isShufflingRef.current) {
@@ -134,11 +182,13 @@ function PlayerControl() {
   );
 
   useEffect(() => {
-    audio.addEventListener("ended", handleClickNext);
-    return () => {
-      audio.removeEventListener("ended", handleClickNext);
-    };
-  }, [audio, handleClickNext, endedSong]);
+    if (playlist.length !== indexSong + 1 || isRepeating) {
+      audio.addEventListener("ended", handleClickNext);
+      return () => {
+        audio.removeEventListener("ended", handleClickNext);
+      };
+    }
+  }, [audio, handleClickNext, endedSong, indexSong, playlist, isRepeating]);
 
   useEffect(() => {
     const fetchDetailSong = async () => {
@@ -187,13 +237,12 @@ function PlayerControl() {
 
   useEffect(() => {
     window.onbeforeunload = handleBeforeUnload;
-
     return () => {
       window.onbeforeunload = null;
     };
   }, [handleBeforeUnload]);
 
-  console.log("re-render-controlPlayer");
+  // console.log("re-render-controlPlayer");
 
   return (
     songInf && (
@@ -278,7 +327,7 @@ function PlayerControl() {
             <span className={cx("time", "left")}>{currentTimeSong}</span>
 
             <div
-              ref={refbar}
+              ref={refBarAudio}
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
@@ -317,11 +366,25 @@ function PlayerControl() {
             </div>
           </TippyToolTip>
           <div className={cx("volume")}>
-            <Button className={cx("btn-icon")}>
-              <BiVolumeFull />
-            </Button>
-            <div className={cx("duration-bar", "volume-bar")}>
-              <div className={cx("bar-cover")}>
+            <div onClick={() => setMuteVolume(!muteVolume)}>
+              <Button className={cx("btn-icon")}>
+                <BiVolumeFull />
+              </Button>
+            </div>
+
+            <div
+              className={cx("duration-bar", "volume-bar")}
+              ref={refBarVolume}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+            >
+              <div
+                className={cx("bar-cover")}
+                style={{
+                  width: `${widthDurationVolume}%`,
+                }}
+              >
                 <div className={cx("bar-circle")}></div>
               </div>
             </div>

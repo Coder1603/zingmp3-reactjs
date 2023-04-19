@@ -13,7 +13,7 @@ import {
   faGem,
   faShirt,
 } from "@fortawesome/free-solid-svg-icons";
-import { memo, useState } from "react";
+import { memo, useCallback, useState } from "react";
 
 import Button from "~/components/Button";
 import Popper from "~/components/Popper";
@@ -23,16 +23,41 @@ import Search from "~/components/Search";
 const cx = classNames.bind(styles);
 
 function Header() {
-  const [backDisabled, setBackDisabled] = useState(false);
-  const [nextDisabled, setNextDisabled] = useState(false);
+  const [backDisabled, setBackDisabled] = useState(true);
+  const [nextDisabled, setNextDisabled] = useState(true);
+
+  const handleBackPage = useCallback(() => {
+    if (window.history.state.idx === 0) {
+      setBackDisabled(true);
+    } else {
+      window.history.back();
+      setNextDisabled(false);
+    }
+  }, []);
+  const handleNextPage = useCallback(() => {
+    if (window.history.length === window.history.state.idx + 2) {
+      setNextDisabled(true);
+    } else {
+      window.history.forward();
+      setBackDisabled(false);
+    }
+  }, []);
 
   return (
     <div className={cx("wrapper")}>
       <div className={cx("level-left")}>
-        <Button disabled={backDisabled} className={cx("arrow")}>
+        <Button
+          disabled={backDisabled}
+          onClick={handleBackPage}
+          className={cx("arrow")}
+        >
           <FontAwesomeIcon icon={faArrowLeftLong} />
         </Button>
-        <Button disabled={nextDisabled} className={cx("arrow")}>
+        <Button
+          disabled={nextDisabled}
+          onClick={handleNextPage}
+          className={cx("arrow")}
+        >
           <FontAwesomeIcon icon={faArrowRightLong} />
         </Button>
         <Search />

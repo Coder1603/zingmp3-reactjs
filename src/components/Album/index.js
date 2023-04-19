@@ -51,7 +51,7 @@ function Album() {
     fetchDataHome();
   }, [currentPid]);
 
-  console.log("re-render-album");
+  // console.log("re-render-album");
 
   return (
     album &&

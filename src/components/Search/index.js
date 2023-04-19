@@ -51,8 +51,6 @@ function Search() {
     fetchSearch();
   }, [inputValue]);
 
-  console.log(isVisible);
-
   return (
     <div className={cx("wrapper", { activeSearch: isVisible })}>
       <Button
@@ -73,7 +71,7 @@ function Search() {
 
                 {dataSearch?.songs?.map(
                   (song, index) =>
-                    index < 6 && (
+                    index < 8 && (
                       <MusicItem
                         key={index}
                         index={index}

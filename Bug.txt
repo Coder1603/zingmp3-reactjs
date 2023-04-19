@@ -1,12 +1,4 @@
-
-- Reload trình duyệt phải ở chế độ pause nhạc --> done
-- Scroll list bài hát trang album --> done
-- Hiệu ứng đang play nhạc cho trang album   --> done
+- Chưa click vào icon volume để bật tắt volume được
 - Màn hình trang album hiển thị tại bài hát
-- Điều chỉnh âm thanh lớn nhỏ
-- Chưa làm phần search input --> done
-- Kéo thanh tua nhạc rê ra ngoài lỗi
-- Play nhạc album chỉ chi nhấn nút play của album
-- Ngày phát hành ca khúc của bài hát trang chủ
-- Thêm hover cho tên tác giả
 - Bắn request liên tục khi nhập value input
+- Còn bug nút back/next page

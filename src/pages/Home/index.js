@@ -94,6 +94,7 @@ function Home() {
   }, []);
 
   // console.log("re-render-home");
+  // console.log(dataHome);
 
   return (
     dataHome && (
@@ -163,48 +164,6 @@ function Home() {
               (music, index) =>
                 index < 12 && (
                   <div key={index} className={cx("container-colum")}>
-                    {/* <div
-                      className={cx("music", {
-                        active: songId === music.encodeId,
-                      })}
-                      onClick={() => handleClickSong(music, index)}
-                    >
-                      <div className={cx("media-left")}>
-                        <img
-                          className={cx("media-new-music")}
-                          src={music.thumbnailM}
-                          alt={music.title}
-                        />
-                        <div className={cx("opacity")}></div>
-                        <button className={cx("btn-play")}>
-                          {songId === music.encodeId && isPlaying ? (
-                            <BsPauseCircle />
-                          ) : (
-                            <BsPlayCircle />
-                          )}
-                        </button>
-                      </div>
-                      <div className={cx("inf")}>
-                        <h5 className={cx("name-music")}>{music.title}</h5>
-                        <span>
-                          {music.artists.map((artist, index) => (
-                            <span className={cx("singer")} key={index}>
-                              {artist.name}
-                              {""}
-                              {index === music.artists.length - 1 ? "" : ", "}
-                            </span>
-                          ))}
-                        </span>
-                        <span className={cx("time")}>Hôm qua</span>
-                      </div>
-                      <TippyToolTip content="Khác">
-                        <div className={cx("three-dot")}>
-                          <Button className={cx("btn-icon")}>
-                            <FontAwesomeIcon icon={faEllipsisVertical} />
-                          </Button>
-                        </div>
-                      </TippyToolTip>
-                    </div> */}
                     <MusicItem
                       music={music}
                       index={index}
@@ -248,6 +207,7 @@ function Home() {
                 </div>
               )
           )}
+
           {/*  BXH Nhạc Mới   */}
 
           <div className={cx("container-section")}>
@@ -340,6 +300,39 @@ function Home() {
               </button>
             </div>
           </div>
+          {/*  Chart */}
+          {/*  Top 100, Album hot */}
+          {dataHome.items.map(
+            (section, index) =>
+              index >= 10 &&
+              index <= 11 && (
+                <div key={index} className={cx("container-section")}>
+                  <span className={cx("title-section")}>{section.title}</span>
+                  <div className={cx("container-content")}>
+                    {section.items.map((item, index2) => (
+                      <div key={index2} className={cx("item-section")}>
+                        <Link
+                          to={item.link}
+                          className={cx("media-section")}
+                          onClick={() =>
+                            dispatch(actions.setAlbumId(item.encodeId))
+                          }
+                        >
+                          <img src={item.thumbnail} alt={item.title} />
+                          <div className={cx("btn-section")}>
+                            <BsPlayCircle />
+                          </div>
+                          <div className={cx("opacity")}></div>
+                        </Link>
+                        <span className={cx("content-section")}>
+                          {item.sortDescription}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+          )}
         </div>
       </div>
     )

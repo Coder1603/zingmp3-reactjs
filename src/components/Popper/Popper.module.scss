@@ -9,8 +9,10 @@
   right: -100%;
   color: var(--text-primary);
   height: auto;
-  max-height: calc(100vh - 300px);
+  min-height: 0;
   overflow: scroll;
+  scroll-behavior: smooth;
+  z-index: 10;
 }
 
 .wrapper.menu {
