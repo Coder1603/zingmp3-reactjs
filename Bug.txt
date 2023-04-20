@@ -2,3 +2,4 @@
 - Màn hình trang album hiển thị tại bài hát
 - Bắn request liên tục khi nhập value input
 - Còn bug nút back/next page
+- Bài hát liên quan Trang album

@@ -15,6 +15,11 @@
   backdrop-filter: blur(50px);
 }
 
+.wrapper.sticky {
+  background-color: transparent;
+  backdrop-filter: blur(0);
+}
+
 // Level-left
 
 .level-left {

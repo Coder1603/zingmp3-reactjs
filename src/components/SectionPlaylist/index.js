@@ -9,11 +9,11 @@ import { BsPlayCircle } from "react-icons/bs";
 
 const cx = classNames.bind(styles);
 
-function SectionPlaylist({ data }) {
+function SectionPlaylist({ data, top100 }) {
   const dispatch = useDispatch();
 
   return (
-    <div className={cx("wrapper")}>
+    <div className={cx("wrapper", { top100: top100 })}>
       <span className={cx("title-section")}>{data.title}</span>
       <div className={cx("container-content")}>
         {data.items.map((item, index) => (

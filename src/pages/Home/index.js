@@ -22,6 +22,10 @@ function Home() {
     fetchDataHome();
   }, []);
 
+  useEffect(() => {
+    document.title =
+      "Zing MP3 | Nghe tải nhạc chất lượng cao trên desktop, mobile và TV";
+  }, []);
   // console.log("re-render-home");
 
   return (

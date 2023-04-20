@@ -12,6 +12,7 @@ import Button from "../Button/Button";
 import * as actions from "~/redux/actions";
 import { Link } from "react-router-dom";
 import { BsPauseCircle, BsPlayCircle } from "react-icons/bs";
+import SectionPlaylist from "../SectionPlaylist";
 
 const cx = classNames.bind(styles);
 
@@ -46,11 +47,17 @@ function Album() {
         apis.getHome(),
       ]);
       setAlbum(res1.data.data);
-      setAlbums(res2.data.data.items[7]);
+      setAlbums(res2.data.data.items[11]);
     };
     fetchDataHome();
   }, [currentPid]);
 
+  useEffect(() => {
+    if (album) {
+      document.title = `${album.title} | Album 320 lossless`;
+    }
+  }, [album]);
+  // console.log(album);
   // console.log("re-render-album");
 
   return (
@@ -148,46 +155,16 @@ function Album() {
                 <span>{album && `${album.song.total} bài hát`}</span>•
                 <span>
                   {album &&
-                    `${Math.floor(album.song.totalDuration / 60)} phút ${
-                      album.song.totalDuration % 60
-                    } giây`}
+                    `${Math.floor(album.song.totalDuration / (60 * 60))} giờ ${
+                      Math.floor(album.song.totalDuration / 60) % 60
+                    } phút`}
                 </span>
               </div>
             </div>
           </div>
         </div>
-        <div className={cx("related-albums")}>
-          <h3 className={cx("title")}>Có Thể Bạn Quan Tâm</h3>
-          <div className={cx("albums-container")}>
-            <div className={cx("albums")}>
-              {albums.items.map((album, index) => (
-                <div key={index} className={cx("album")}>
-                  <Link
-                    className={cx("media-album")}
-                    onClick={() => {
-                      setCurrentPid(album.encodeId);
-                      window.scrollTo(0, 0);
-                    }}
-                    to={album.link}
-                  >
-                    <img src={album.thumbnailM} alt={album.title} />
-                  </Link>
-                  <div className={cx("inf-album")}>
-                    <div className={cx("title-album")}>{album.title}</div>
-                    <div className={cx("artists-album")}>
-                      {album.artists?.map((artist, index) => (
-                        <span key={index}>
-                          {artist.name}{" "}
-                          {index === album.artists.length - 1 ? "" : ", "}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        {/* Bài hát liên quan */}
+        <SectionPlaylist data={albums} />
       </div>
     )
   );

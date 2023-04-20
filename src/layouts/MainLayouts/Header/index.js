@@ -13,7 +13,7 @@ import {
   faGem,
   faShirt,
 } from "@fortawesome/free-solid-svg-icons";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 
 import Button from "~/components/Button";
 import Popper from "~/components/Popper";
@@ -25,6 +25,21 @@ const cx = classNames.bind(styles);
 function Header() {
   const [backDisabled, setBackDisabled] = useState(true);
   const [nextDisabled, setNextDisabled] = useState(true);
+  const [sticky, setSticky] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset <= 0) {
+        setSticky(true);
+      } else {
+        setSticky(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const handleBackPage = useCallback(() => {
     if (window.history.state.idx === 0) {
@@ -44,7 +59,7 @@ function Header() {
   }, []);
 
   return (
-    <div className={cx("wrapper")}>
+    <div className={cx("wrapper", { sticky: sticky })}>
       <div className={cx("level-left")}>
         <Button
           disabled={backDisabled}
