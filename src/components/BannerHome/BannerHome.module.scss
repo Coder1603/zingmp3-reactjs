@@ -1,0 +1,26 @@
+.wrapper {
+  padding-top: 40px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.container-section {
+  display: flex;
+  margin: 0 -15px;
+}
+
+.banner {
+  width: 33.3333%;
+  flex-shrink: 1;
+  margin: 0 14px;
+  overflow: hidden;
+  border-radius: 8px;
+  img {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.2s linear;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}

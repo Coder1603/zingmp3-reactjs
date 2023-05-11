@@ -39,7 +39,7 @@ function NewMusicLists({ data }) {
         ))}
       </div>
       <div className={cx("container-musics")}>
-        {data.items[sortNewMusic].map(
+        {data?.items[sortNewMusic]?.map(
           (music, index) =>
             index < 12 && (
               <div key={index} className={cx("container-colum")}>

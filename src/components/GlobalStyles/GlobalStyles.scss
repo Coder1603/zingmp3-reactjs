@@ -374,3 +374,25 @@ a {
     width: 100%;
   }
 }
+
+body::-webkit-scrollbar {
+  width: 4px;
+}
+
+body::-webkit-scrollbar-corner {
+  border-radius: 100%;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+body::-webkit-scrollbar-button {
+  background-color: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #5d5765;
+  border-radius: 50px;
+  max-height: 10px !important;
+}

@@ -16,7 +16,7 @@ function SectionPlaylist({ data, top100 }) {
     <div className={cx("wrapper", { top100: top100 })}>
       <span className={cx("title-section")}>{data.title}</span>
       <div className={cx("container-content")}>
-        {data.items.map((item, index) => (
+        {data?.items?.map((item, index) => (
           <div key={index} className={cx("item-section")}>
             <Link
               to={item.link}

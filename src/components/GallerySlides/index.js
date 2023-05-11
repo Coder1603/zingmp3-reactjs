@@ -42,7 +42,7 @@ function GallerySlides({ data }) {
 
   return (
     <div className={cx("wrapper")}>
-      {data.items.map((galleryItem, idx) => (
+      {data?.items?.map((galleryItem, idx) => (
         <Link
           to={galleryItem.type === 4 ? galleryItem.link : "/"}
           key={idx}
@@ -59,13 +59,13 @@ function GallerySlides({ data }) {
       <div className={cx("gallery-btn")}>
         <button
           className={cx("back", "navigation-btn")}
-          onClick={() => handleBackTranslteXGallery()}
+          onClick={handleBackTranslteXGallery}
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
         <button
           className={cx("next", "navigation-btn")}
-          onClick={() => handleNextTranslteXGallery()}
+          onClick={handleNextTranslteXGallery}
         >
           <FontAwesomeIcon icon={faChevronRight} />
         </button>

@@ -24,8 +24,6 @@ function Top100() {
     document.title = "Top 100 | Tuyển tập nhạc hay chọn lọc";
   }, []);
 
-  console.log(dataTop100);
-
   return (
     dataTop100 && (
       <div className={cx("wrapper")}>

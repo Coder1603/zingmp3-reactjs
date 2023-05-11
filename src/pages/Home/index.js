@@ -8,6 +8,8 @@ import NewMusicLists from "~/components/NewMusicLists";
 import SectionPlaylist from "~/components/SectionPlaylist";
 import BhxMusics from "~/components/BhxMusics";
 import Chart from "~/components/Chart";
+import BannerHome from "~/components/BannerHome";
+import RadioSection from "~/components/RadioSection";
 
 const cx = classNames.bind(styles);
 
@@ -34,21 +36,22 @@ function Home() {
         {/* SLIDE HEADER HOME */}
         <GallerySlides data={dataHome.items[0]} />
         {/* MỚI PHÁT HÀNH */}
-        <NewMusicLists data={dataHome.items[3]} />
-        {/*  Chill */}
+        <NewMusicLists data={dataHome.items[2]} />
+        {/*  Section */}
+        <SectionPlaylist data={dataHome.items[3]} />
         <SectionPlaylist data={dataHome.items[4]} />
-        {/*   Focus */}
         <SectionPlaylist data={dataHome.items[5]} />
-        {/*    Nghệ Sĩ Thịnh Hành  */}
-        <SectionPlaylist data={dataHome.items[6]} />
-        {/*  BXH Nhạc Mới   */}
-        <BhxMusics data={dataHome.items[7]} />
+        {/*  BXH */}
+        <BhxMusics data={dataHome.items[6]} />
         {/*  Chart*/}
         <Chart />
-        {/*  Top 100 */}
+        {/* Banner */}
+        <BannerHome data={dataHome.items[8]} />
+        {/*  Section*/}
+        <SectionPlaylist data={dataHome.items[9]} />
         <SectionPlaylist data={dataHome.items[10]} />
-        {/*  Album hot */}
-        <SectionPlaylist data={dataHome.items[11]} />
+        <RadioSection data={dataHome.items[11]} />
+        <div></div>
       </div>
     )
   );

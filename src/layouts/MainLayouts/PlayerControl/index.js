@@ -285,9 +285,7 @@ function PlayerControl() {
           <div className={cx("center-action")}>
             <TippyToolTip content="Bật phát ngẫu nhiên">
               <div
-                onClick={() => {
-                  handleClickShuffle();
-                }}
+                onClick={handleClickShuffle}
                 className={cx({ active: isShuffling })}
               >
                 <Button className={cx("btn-icon")}>

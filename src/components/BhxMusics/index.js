@@ -34,7 +34,7 @@ function BhxMusics({ data }) {
       </span>
       <div className={cx("wrapper-main")}>
         <div className={cx("container-content")}>
-          {data.items.map((item, index) => (
+          {data?.items?.map((item, index) => (
             <div
               key={index}
               className={cx("item-container")}
@@ -58,7 +58,7 @@ function BhxMusics({ data }) {
                   <div className={cx("music-info")}>
                     <div className={cx("music-title")}>{item.title}</div>
                     <div className={cx("music-artits")}>
-                      {item.artists.map((artist, index) => (
+                      {item?.artists?.map((artist, index) => (
                         <span className={cx("singer")} key={index}>
                           {artist.name}
                           {""}
@@ -100,13 +100,13 @@ function BhxMusics({ data }) {
         </div>
         <button
           className={cx("btn-bxh-left", "navigation-btn")}
-          onClick={() => handleBackTranslteXBxh()}
+          onClick={handleBackTranslteXBxh}
         >
           <IoIosArrowBack />
         </button>
         <button
           className={cx("btn-bxh-right", "navigation-btn")}
-          onClick={() => handleNextTranslteXBxh()}
+          onClick={handleNextTranslteXBxh}
         >
           <IoIosArrowForward />
         </button>
