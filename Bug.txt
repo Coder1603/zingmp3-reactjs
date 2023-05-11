@@ -3,3 +3,4 @@
 - Bắn request liên tục khi nhập value input
 - Còn bug nút back/next page
 - Bài hát liên quan Trang album
+- tối ưu lại play nhạc

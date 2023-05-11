@@ -3,8 +3,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://api-zingmp3-vercel.vercel.app/api",
-  // https://localhost:3200/api
+  baseURL: `${process.env.REACT_APP_BASE_URL}/api/`,
 });
 
 // Add a request interceptor

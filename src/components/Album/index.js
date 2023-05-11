@@ -10,7 +10,6 @@ import styles from "./Album.module.scss";
 import * as apis from "~/apis";
 import Button from "../Button/Button";
 import * as actions from "~/redux/actions";
-import { Link } from "react-router-dom";
 import { BsPauseCircle, BsPlayCircle } from "react-icons/bs";
 import SectionPlaylist from "../SectionPlaylist";
 
@@ -24,7 +23,8 @@ function Album() {
 
   const [album, setAlbum] = useState(null);
   const [albums, setAlbums] = useState(null);
-  const [currentPid, setCurrentPid] = useState(albumId);
+
+  console.log(albumId);
 
   const handleClickSong = useCallback(
     (item, index) => {
@@ -43,14 +43,14 @@ function Album() {
   useEffect(() => {
     const fetchDataHome = async () => {
       const [res1, res2] = await Promise.all([
-        apis.getDetailPlaylist(currentPid),
+        apis.getDetailPlaylist(albumId),
         apis.getHome(),
       ]);
       setAlbum(res1.data.data);
       setAlbums(res2.data.data.items[11]);
     };
     fetchDataHome();
-  }, [currentPid]);
+  }, [albumId]);
 
   useEffect(() => {
     if (album) {
