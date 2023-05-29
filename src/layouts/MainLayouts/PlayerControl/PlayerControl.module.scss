@@ -1,3 +1,5 @@
+@import "../../../components/GlobalStyles/Variable.scss";
+
 .wrapper {
   position: fixed;
   bottom: 0;
@@ -7,8 +9,8 @@
   width: 100%;
   min-width: 768px;
   padding: 0 20px;
-  background-color: var(--player-bg);
-  border-top: 1px solid var(--border-player);
+  background-color: $player-bg;
+  border-top: 1px solid $border-player;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -50,13 +52,13 @@
   overflow: visible;
   display: flex;
   align-items: center;
-  color: #fff;
+  color: $text-primary;
   white-space: nowrap;
 }
 
 .content-artists {
   margin-top: 1px;
-  color: var(--text-secondary);
+  color: $text-secondary;
   display: block;
   font-size: 1.2rem;
   white-space: nowrap;
@@ -83,7 +85,7 @@
   margin-left: 10px;
   display: flex;
   button {
-    color: #fff;
+    color: $text-primary;
   }
 }
 
@@ -100,7 +102,7 @@
   justify-content: space-between;
   align-items: center;
   button {
-    color: #fff;
+    color: $text-primary;
     font-size: 2rem;
   }
 }
@@ -112,7 +114,7 @@ button.play-pause {
   align-items: center;
   justify-content: center;
   &:hover {
-    color: var(--link-text-hover);
+    color: $link-text-hover;
   }
 }
 
@@ -126,8 +128,8 @@ button.play-pause {
 
 .time {
   min-width: 45px;
-  font-size: 12px;
-  color: #fff;
+  font-size: 1.2rem;
+  color: $text-primary;
   font-weight: 500;
 }
 
@@ -167,7 +169,7 @@ button.play-pause {
   width: 0;
   max-width: 100%;
   height: 100%;
-  background-color: #fff;
+  background-color: $text-primary;
   position: absolute;
   left: 0;
   top: 50%;
@@ -180,7 +182,7 @@ button.play-pause {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: $text-primary;
   position: absolute;
   right: -5px;
   top: 50%;
@@ -193,7 +195,7 @@ button.play-pause {
   align-items: center;
   justify-content: flex-end;
   button {
-    color: #fff;
+    color: $text-primary;
   }
 }
 
@@ -216,7 +218,7 @@ button.play-pause {
 .divide {
   height: 33px;
   width: 1px;
-  background-color: var(--border-player);
+  background-color: $border-player;
   margin: 0 12px;
 }
 
@@ -229,7 +231,7 @@ button.play-pause {
 
 .active {
   button {
-    color: var(--link-text-hover);
+    color: $link-text-hover;
   }
 }
 

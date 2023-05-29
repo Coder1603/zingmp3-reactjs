@@ -1,3 +1,5 @@
+@import "../GlobalStyles/Variable.scss";
+
 .wrapper {
   margin-top: 32px;
   line-height: 1.5;
@@ -11,9 +13,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 20px;
-  font-size: 18px;
-  color: var(--text-primary);
+  font-size: 2rem;
+  font-size: 1.8rem;
+  color: $text-primary;
 }
 
 .container-main {

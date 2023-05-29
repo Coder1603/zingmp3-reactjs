@@ -85,7 +85,7 @@ function Album() {
                 </div>
               </div>
 
-              <AlbumSongList />
+              <AlbumSongList album={album} />
               <div className={cx("content-subtitle")}>
                 <span>{album && `${album.song.total} bài hát`}</span>•
                 <span>

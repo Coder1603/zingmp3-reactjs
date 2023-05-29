@@ -2,22 +2,16 @@ import { BsPauseCircle, BsPlayCircle } from "react-icons/bs";
 import { IoMusicalNotesOutline } from "react-icons/io5";
 import classNames from "classnames/bind";
 import styles from "./AlbumSongList.module.scss";
-import { useCallback, useEffect, useState } from "react";
-import * as apis from "~/apis";
+import { memo, useCallback } from "react";
 import * as actions from "~/redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 const cx = classNames.bind(styles);
 
-function AlbumSongList() {
+function AlbumSongList({ album }) {
+  console.log(album);
   const dispatch = useDispatch();
-
-  const { albumId } = useSelector((state) => state.album);
   const { songId, isPlaying } = useSelector((state) => state.controlPlayer);
-
-  const [album, setAlbum] = useState(null);
-
-  console.log(albumId);
 
   const handleClickSong = useCallback(
     (item, index) => {
@@ -32,14 +26,6 @@ function AlbumSongList() {
     },
     [dispatch, album, songId, isPlaying]
   );
-
-  useEffect(() => {
-    const fetchDataHome = async () => {
-      const res = await apis.getDetailPlaylist(albumId);
-      setAlbum(res.data.data);
-    };
-    fetchDataHome();
-  }, [albumId]);
 
   return (
     <div className={cx("wrapper")}>
@@ -88,4 +74,4 @@ function AlbumSongList() {
   );
 }
 
-export default AlbumSongList;
+export default memo(AlbumSongList);

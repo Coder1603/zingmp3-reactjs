@@ -1,6 +1,8 @@
+@import "../GlobalStyles/Variable.scss";
+
 .wrapper {
   cursor: pointer;
-  color: #fff;
+  color: $text-primary;
   font-size: 1.4rem;
   line-height: normal;
   display: inline-block;
@@ -43,7 +45,7 @@
   display: flex;
   align-items: center;
   border-radius: 999px;
-  background-color: var(--alpha-bg);
+  background-color: $alpha-bg;
   margin-right: 12px;
 }
 
@@ -54,9 +56,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--alpha-bg);
+  background-color: $alpha-bg;
   border-radius: 999px;
-  color: #fff;
+  color: $text-primary;
   &:hover {
     opacity: 0.9;
   }
@@ -69,10 +71,10 @@
   font-size: 1.3rem;
   font-weight: 500;
   padding: 10px 25px;
-  color: var(--navigation-text);
+  color: $navigation-text;
   border-left: 3px solid transparent;
   &:hover {
-    color: #fff;
+    color: $text-primary;
   }
 
   .icon-right {
@@ -94,8 +96,8 @@
 }
 
 .sidebar.active {
-  background-color: var(--alpha-bg);
-  color: #fff;
+  background-color: $alpha-bg;
+  color: $text-primary;
 }
 
 .icon {
@@ -123,14 +125,14 @@
   text-transform: none;
   cursor: pointer;
   position: relative;
-  color: var(--song-item-action);
+  color: $song-item-action;
   &:hover {
-    background-color: var(--alpha-bg);
+    background-color: $alpha-bg;
   }
 }
 
 .btn-icon.album {
-  background-color: var(--alpha-bg);
+  background-color: $alpha-bg;
   width: 35px;
   height: 35px;
 }

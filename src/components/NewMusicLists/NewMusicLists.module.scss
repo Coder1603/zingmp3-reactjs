@@ -1,3 +1,5 @@
+@import "../GlobalStyles/Variable.scss";
+
 .wrapper {
   margin-top: 48px;
 }
@@ -8,7 +10,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 2rem;
-  color: var(--text-primary);
+  color: $text-primary;
   font-weight: 500;
   text-transform: capitalize;
   position: relative;
@@ -20,21 +22,21 @@
 }
 
 .nav-btn {
-  border-color: var(--purple-primary);
+  border-color: $purple-primary;
   background-color: transparent;
-  color: var(--white);
+  color: $text-primary;
   padding: 4px 24px;
-  border: 1px solid var(--border-primary);
+  border: 1px solid $border-primary;
   border-radius: 100px;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 1.2rem;
   text-transform: uppercase;
   margin-right: 15px;
   cursor: pointer;
 }
 
 .nav-btn.active {
-  background-color: var(--purple-primary);
+  background-color: $purple-primary;
 }
 
 .container-musics {

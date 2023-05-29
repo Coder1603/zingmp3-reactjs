@@ -1,4 +1,4 @@
-// Slider
+@import "../GlobalStyles/Variable.scss";
 
 .wrapper {
   padding-top: 32px;
@@ -33,7 +33,7 @@
   .navigation-btn {
     width: 55px;
     height: 55px;
-    color: #fff;
+    color: $text-primary;
   }
   .back {
     left: 25px;

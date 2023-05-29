@@ -1,9 +1,14 @@
+@import "../GlobalStyles/Variable.scss";
+
 .wrapper {
   min-height: calc(100% - 158px);
   margin: 0 auto 30px 0;
-  color: #fff;
+  color: $text-primary;
   padding-top: 40px;
   margin-bottom: 160px;
+  .container-top {
+    min-height: 500px;
+  }
 }
 
 .playlist-header {
@@ -26,10 +31,6 @@
   img {
     width: 100%;
   }
-}
-
-.container-top {
-  min-height: 500px;
 }
 
 .header-content {
@@ -58,7 +59,7 @@
 
 .album-artists {
   text-align: center;
-  color: var(--text-secondary);
+  color: $text-secondary;
   font-size: 1.2rem;
   line-height: 1.75;
   word-break: break-word;
@@ -69,12 +70,12 @@
   display: flex;
   align-items: center;
   margin-right: 1rem;
-  background-color: var(--purple-primary);
-  border-color: var(--purple-primary);
-  color: var(--white);
+  background-color: $purple-primary;
+  border-color: $purple-primary;
+  color: $text-primary;
   font-size: 1.4rem;
   padding: 9px 24px;
-  border: 1px solid var(--border-primary);
+  border: 1px solid $border-primary;
   font-weight: 400;
   border-radius: 999px;
   cursor: pointer;
@@ -89,7 +90,7 @@
 .content-description {
   font-size: 1.3rem;
   margin-bottom: 10px;
-  color: var(--text-primary);
+  color: $text-primary;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
@@ -99,7 +100,7 @@
 }
 
 .description-fixed {
-  color: var(--text-secondary);
+  color: $text-secondary;
 }
 
 .content-list {
@@ -107,7 +108,7 @@
 }
 
 .list-header {
-  border-bottom: 1px solid var(--border-secondary);
+  border-bottom: 1px solid $border-secondary;
   height: 46px;
   align-items: center;
   display: flex;
@@ -141,10 +142,10 @@
 }
 
 .colum-text {
-  font-size: 12px;
+  font-size: 1.4rem;
   font-weight: 500;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: $text-secondary;
 }
 
 .icon-music {
@@ -152,14 +153,14 @@
   justify-content: center;
   align-items: center;
   font-size: 1.6rem;
-  color: var(--song-item-action);
+  color: $song-item-action;
   font-weight: 700;
   margin-right: 10px;
 }
 
 .content-subtitle {
-  font-size: 12px;
-  color: var(--text-secondary);
+  font-size: 1.2rem;
+  color: $text-secondary;
   font-weight: 400;
   span {
     margin-right: 8px;
@@ -226,18 +227,18 @@
 }
 
 .title-album {
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 500;
   line-height: 1.36;
-  color: var(--text-primary);
+  color: $text-primary;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .artists-album {
-  font-size: 14px;
-  color: var(--text-secondary);
+  font-size: 1.4rem;
+  color: $text-secondary;
   font-weight: 400;
   line-height: 1.33;
 }

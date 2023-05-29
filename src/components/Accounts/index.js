@@ -22,6 +22,7 @@ function Accounts({ data }) {
         </button>
         <div className={cx("opacity")}></div>
       </div>
+
       <div className={cx("content")}>
         <h4 className={cx("title")}>{data.title}</h4>
         <span className={cx("sub-title")}> {data.artistsNames}</span>

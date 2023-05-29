@@ -1,3 +1,5 @@
+@import "../GlobalStyles/Variable.scss";
+
 .wrapper {
   margin-top: 48px;
 }
@@ -8,24 +10,24 @@
   justify-content: space-between;
   align-items: center;
   font-size: 2rem;
-  color: var(--text-primary);
+  color: $text-primary;
   font-weight: 500;
   text-transform: capitalize;
   position: relative;
 }
 
 .more-section {
-  font-size: 12px;
+  font-size: 1.2rem;
   font-weight: 500;
   text-transform: uppercase;
   display: flex;
   align-items: center;
-  color: var(--text-secondary);
+  color: $text-secondary;
   svg {
-    font-size: 17px;
+    font-size: 1.7rem;
     margin-left: 6px;
     polyline {
-      stroke: var(--text-secondary);
+      stroke: $text-secondary;
     }
   }
 }
@@ -61,7 +63,7 @@
 }
 
 .singer {
-  color: var(--text-secondary);
+  color: $text-secondary;
   line-height: 1.33;
   font-size: 1.2rem;
   white-space: nowrap;
@@ -70,7 +72,7 @@
   &:hover {
     text-decoration: underline;
     cursor: pointer;
-    color: var(--purple-primary);
+    color: $purple-primary;
   }
 }
 
@@ -81,7 +83,7 @@
   overflow: hidden;
   border-radius: 4px;
   cursor: pointer;
-  background-color: var(--loading-bg);
+  background-color: $loading-bg;
   margin-right: 10px;
 
   &:hover .music-media {
@@ -99,7 +101,7 @@
   width: 120px;
   height: 120px;
   transition: transform 0.7s;
-  color: #fff;
+  color: $text-primary;
 }
 
 .opacity {
@@ -108,7 +110,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--dark-alpha-50);
+  background-color: $dark-alpha-50;
   opacity: 0;
 }
 
@@ -122,7 +124,7 @@
   transition: transform 0.7s;
   z-index: 1;
   cursor: pointer;
-  color: #fff;
+  color: $text-primary;
 }
 
 .music-content {
@@ -143,7 +145,7 @@
   display: flex;
   align-items: center;
   white-space: normal;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 500;
   line-height: 1.38;
   overflow: hidden;
@@ -160,7 +162,7 @@
 }
 
 .singer {
-  color: var(--text-secondary);
+  color: $text-secondary;
   line-height: 1.33;
   font-size: 1.2rem;
   white-space: nowrap;
@@ -169,14 +171,14 @@
   &:hover {
     text-decoration: underline;
     cursor: pointer;
-    color: var(--purple-primary);
+    color: $purple-primary;
   }
 }
 
 .number-top {
   opacity: 0.4;
-  -webkit-text-stroke: 1px #fff;
-  font-size: 40px;
+  -webkit-text-stroke: 1px $text-primary;
+  font-size: 4rem;
   font-weight: 900;
   color: transparent;
   line-height: 1;
@@ -187,15 +189,15 @@
   bottom: 0;
   right: 0;
   line-height: 1.8;
-  color: var(--text-secondary);
-  font-size: 14px;
+  color: $text-secondary;
+  font-size: 1.4rem;
   cursor: pointer;
   font-weight: 300;
 }
 
 .view-all {
   height: 100%;
-  color: var(--purple-primary);
+  color: $purple-primary;
   font-weight: 500;
   text-transform: uppercase;
   justify-content: center;
@@ -209,13 +211,13 @@
   align-items: center;
   border-radius: 50%;
   box-shadow: 0 2px 4px 0 rgb(226 102 102 / 15%);
-  font-size: 22px;
+  font-size: 2.2rem;
   cursor: pointer;
   position: absolute;
   transform: translateY(-50%);
   top: 50%;
   z-index: 9;
-  background-color: #fff;
+  background-color: $text-primary;
   color: #474747;
   width: 38px;
   height: 38px;

@@ -1,7 +1,9 @@
+@import "../../../components/GlobalStyles/Variable.scss";
+
 .wrapper {
   width: 240px;
   height: 100%;
-  background-color: var(--sidebar-bg);
+  background-color: $sidebar-bg;
   position: fixed;
   top: 0;
   right: 0;
@@ -32,7 +34,7 @@
   cursor: pointer;
   &::after {
     content: "";
-    border-top: 1px solid var(--border-primary);
+    border-top: 1px solid $border-primary;
     position: absolute;
     left: 25px;
     right: 25px;
@@ -55,12 +57,12 @@
   left: 0;
   bottom: 0;
   height: 54px;
-  border-top: 1px solid var(--border-primary);
+  border-top: 1px solid $border-primary;
   padding: 0 28px;
   border-radius: 0;
   display: flex;
   align-items: center;
-  color: var(--text-primary);
+  color: $text-primary;
   font-weight: 700;
 }
 

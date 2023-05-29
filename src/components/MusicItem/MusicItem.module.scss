@@ -1,3 +1,5 @@
+@import "../GlobalStyles/Variable.scss";
+
 .music {
   align-items: center;
   display: flex;
@@ -10,7 +12,7 @@
   margin-right: 10px;
   position: relative;
   &:hover {
-    background-color: var(--alpha-bg);
+    background-color: $alpha-bg;
   }
   &:hover .btn-play,
   &:hover .three-dot,
@@ -23,7 +25,7 @@
 }
 
 .music.active {
-  background-color: var(--alpha-bg);
+  background-color: $alpha-bg;
 }
 
 .media-left {
@@ -33,7 +35,7 @@
   overflow: hidden;
   border-radius: 4px;
   cursor: pointer;
-  background-color: var(--loading-bg);
+  background-color: $loading-bg;
   margin-right: 10px;
 
   &:hover .music-media {
@@ -53,12 +55,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--dark-alpha-50);
+  background-color: $dark-alpha-50;
   opacity: 0;
 }
 
 .singer {
-  color: var(--text-secondary);
+  color: $text-secondary;
   line-height: 1.33;
   font-size: 1.2rem;
   white-space: nowrap;
@@ -67,7 +69,7 @@
   &:hover {
     text-decoration: underline;
     cursor: pointer;
-    color: var(--purple-primary);
+    color: $purple-primary;
   }
 }
 
@@ -92,7 +94,7 @@
   height: 18px;
   width: 18px;
   border-radius: 999px;
-  color: #fff;
+  color: $text-primary;
   position: absolute;
   font-size: 2rem;
   display: flex;
@@ -119,8 +121,8 @@
   text-transform: none;
   font-weight: 500;
   font-family: Inter, sans-serif;
-  font-size: 14px;
-  color: var(--text-primary);
+  font-size: 1.4rem;
+  color: $text-primary;
   text-transform: capitalize;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -133,7 +135,7 @@
   font-size: 1.2rem;
   line-height: 18px;
   font-weight: 400;
-  color: var(--text-secondary);
+  color: $text-secondary;
 }
 
 .three-dot {
