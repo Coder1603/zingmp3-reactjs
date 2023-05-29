@@ -17,6 +17,9 @@
 
 .level-left {
   width: 30%;
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .media {
@@ -31,6 +34,9 @@
   border-radius: 4px;
   overflow: hidden;
   margin-right: 10px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
   img {
     width: 100%;
   }
@@ -45,6 +51,7 @@
   display: flex;
   align-items: center;
   color: #fff;
+  white-space: nowrap;
 }
 
 .content-artists {
@@ -52,14 +59,24 @@
   color: var(--text-secondary);
   display: block;
   font-size: 1.2rem;
+  white-space: nowrap;
 }
 
 .level-center {
-  max-width: 40%;
+  max-width: 40vw;
+  flex-grow: 1;
 }
 
 .level-right {
   width: 30%;
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.media-content {
+  max-width: 155px;
+  overflow: hidden;
 }
 
 .media-icon {
@@ -177,7 +194,6 @@ button.play-pause {
   justify-content: flex-end;
   button {
     color: #fff;
-    margin: 0;
   }
 }
 
@@ -201,7 +217,7 @@ button.play-pause {
   height: 33px;
   width: 1px;
   background-color: var(--border-player);
-  margin: 0 20px;
+  margin: 0 12px;
 }
 
 .list-play {
@@ -215,4 +231,14 @@ button.play-pause {
   button {
     color: var(--link-text-hover);
   }
+}
+
+// REPONSIVE
+@media screen and (max-width: 1024px) and (min-width: 740px) {
+  .volume-bar {
+    display: none;
+  }
+}
+//mobile width < 740px
+@media screen and (max-width: 739.9px) {
 }

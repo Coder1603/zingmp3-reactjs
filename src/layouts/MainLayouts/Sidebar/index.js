@@ -64,7 +64,6 @@ function Sidebar() {
         <Button>
           <FontAwesomeIcon icon={faPlus} />
           <span style={{ marginLeft: "4px", fontWeight: 500 }}>
-            {" "}
             Tạo playlist mới
           </span>
         </Button>

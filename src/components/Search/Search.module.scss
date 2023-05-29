@@ -1,5 +1,6 @@
 .wrapper {
-  width: 440px;
+  max-width: 440px;
+  flex-grow: 1;
   height: 40px;
   background-color: var(--alpha-bg);
   border-radius: 20px;

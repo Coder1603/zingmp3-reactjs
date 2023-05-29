@@ -57,3 +57,13 @@
   top: 50%;
   z-index: 9;
 }
+
+// REPONSIVE
+@media screen and (max-width: 1024px) and (min-width: 740px) {
+  .gallery-item {
+    width: 50%;
+  }
+}
+//mobile width < 740px
+@media screen and (max-width: 739.9px) {
+}

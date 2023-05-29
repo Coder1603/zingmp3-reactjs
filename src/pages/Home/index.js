@@ -9,7 +9,6 @@ import SectionPlaylist from "~/components/SectionPlaylist";
 import BhxMusics from "~/components/BhxMusics";
 import Chart from "~/components/Chart";
 import BannerHome from "~/components/BannerHome";
-import RadioSection from "~/components/RadioSection";
 
 const cx = classNames.bind(styles);
 
@@ -29,6 +28,7 @@ function Home() {
       "Zing MP3 | Nghe tải nhạc chất lượng cao trên desktop, mobile và TV";
   }, []);
   // console.log("re-render-home");
+  console.log(dataHome);
 
   return (
     dataHome && (
@@ -50,8 +50,7 @@ function Home() {
         {/*  Section*/}
         <SectionPlaylist data={dataHome.items[9]} />
         <SectionPlaylist data={dataHome.items[10]} />
-        <RadioSection data={dataHome.items[11]} />
-        <div></div>
+        {/* <RadioSection data={dataHome.items[11]} /> */}
       </div>
     )
   );

@@ -98,3 +98,13 @@
   background-color: var(--dark-alpha-50);
   opacity: 0;
 }
+
+// REPONSIVE
+@media screen and (max-width: 1024px) and (min-width: 740px) {
+  .item-section {
+    width: 25%;
+  }
+}
+//mobile width < 740px
+@media screen and (max-width: 739.9px) {
+}

@@ -1,14 +1,18 @@
 import classNames from "classnames/bind";
 
 import styles from "./BhxMusics.module.scss";
-import { BsPlayCircle } from "react-icons/bs";
+import { BsPauseCircle, BsPlayCircle } from "react-icons/bs";
 import { GrNext } from "react-icons/gr";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { memo, useCallback, useState } from "react";
+import * as actions from "~/redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const cx = classNames.bind(styles);
 
 function BhxMusics({ data }) {
+  const dispatch = useDispatch();
+  const { isPlaying } = useSelector((state) => state.controlPlayer);
   const [translateSlideXBxh, setTranslateSlideXBxh] = useState("0");
 
   const handleBackTranslteXBxh = useCallback(() => {
@@ -50,8 +54,14 @@ function BhxMusics({ data }) {
                     alt={item.title}
                   />
                   <div className={cx("opacity")}></div>
-                  <button className={cx("btn-section")}>
-                    <BsPlayCircle />
+                  <button
+                    onClick={() => {
+                      dispatch(actions.setSongId(item.encodeId));
+                      dispatch(actions.setPlay(!isPlaying));
+                    }}
+                    className={cx("btn-section")}
+                  >
+                    {isPlaying ? <BsPauseCircle /> : <BsPlayCircle />}
                   </button>
                 </div>
                 <div className={cx("music-content")}>

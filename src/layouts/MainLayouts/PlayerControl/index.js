@@ -5,7 +5,7 @@ import TippyToolTip from "@tippyjs/react";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BsWindowFullscreen } from "react-icons/bs";
 import { GiMicrophone } from "react-icons/gi";
-import { BiVolumeFull } from "react-icons/bi";
+import { BiVolumeFull, BiVolumeMute } from "react-icons/bi";
 import { MdQueueMusic, MdOutlineVideoLibrary } from "react-icons/md";
 
 import Button from "~/components/Button/Button";
@@ -45,6 +45,17 @@ function PlayerControl() {
     return audio.duration - audio.currentTime === 0;
   }, [audio]);
 
+  const handleClickIconVolume = () => {
+    setMuteVolume(!muteVolume);
+    if (!muteVolume) {
+      audio.volume = 0;
+      setWidthDurationVolume(0);
+    } else {
+      audio.volume = 1;
+      setWidthDurationVolume(100);
+    }
+  };
+
   const handleMouseDown = useCallback(() => {
     setIsDragging(true);
   }, []);
@@ -64,10 +75,12 @@ function PlayerControl() {
           setIsAudioBarActive(false);
         }
       }
-
+      if (widthDurationVolume > 0) {
+        setMuteVolume(false);
+      }
       return;
     },
-    [isDragging]
+    [isDragging, widthDurationVolume]
   );
 
   const handleMouseUp = useCallback(
@@ -364,9 +377,9 @@ function PlayerControl() {
             </div>
           </TippyToolTip>
           <div className={cx("volume")}>
-            <div onClick={() => setMuteVolume(!muteVolume)}>
+            <div onClick={handleClickIconVolume}>
               <Button className={cx("btn-icon")}>
-                <BiVolumeFull />
+                {muteVolume ? <BiVolumeMute /> : <BiVolumeFull />}
               </Button>
             </div>
 

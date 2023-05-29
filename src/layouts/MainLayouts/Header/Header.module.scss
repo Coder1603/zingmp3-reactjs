@@ -24,6 +24,7 @@
 
 .level-left {
   display: flex;
+  flex-grow: 1;
   height: 40px;
   margin-right: 10px;
   display: flex;
@@ -215,4 +216,21 @@
 
 .content-hover {
   color: var(--navigation-text);
+}
+
+// REPONSIVE
+@media screen and (max-width: 1024px) and (min-width: 740px) {
+  .wrapper {
+    margin-left: 70px;
+    padding: 0 20px;
+  }
+  .level-right {
+    .setting-item:nth-child(2),
+    .setting-item:nth-child(3) {
+      display: none;
+    }
+  }
+}
+//mobile width < 740px
+@media screen and (max-width: 739.9px) {
 }

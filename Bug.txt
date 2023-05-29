@@ -1,4 +1,3 @@
-- Chưa click vào icon volume để bật tắt volume được
 - Màn hình trang album hiển thị tại bài hát
 - Bắn request liên tục khi nhập value input
 - Còn bug nút back/next page

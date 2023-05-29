@@ -228,3 +228,13 @@
 .btn-bxh-right {
   right: -19px;
 }
+
+// REPONSIVE
+@media screen and (max-width: 1024px) and (min-width: 740px) {
+  .item-container {
+    width: 50%;
+  }
+}
+//mobile width < 740px
+@media screen and (max-width: 739.9px) {
+}

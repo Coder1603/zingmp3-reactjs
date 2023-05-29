@@ -396,3 +396,11 @@ body::-webkit-scrollbar-thumb {
   border-radius: 50px;
   max-height: 10px !important;
 }
+
+// Reponsive website
+//Tablet width >=740px and width < 1024px
+@media screen and (max-width: 1024px) and (min-width: 740px) {
+}
+//mobile width < 740px
+@media screen and (max-width: 739.9px) {
+}
