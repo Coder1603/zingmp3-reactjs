@@ -19,8 +19,6 @@ function Album() {
   const [album, setAlbum] = useState(null);
   const [albums, setAlbums] = useState(null);
 
-  console.log(albumId);
-
   useEffect(() => {
     const fetchDataHome = async () => {
       const [res1, res2] = await Promise.all([

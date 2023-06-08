@@ -9,10 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 
 function AlbumSongList({ album }) {
-  console.log(album);
   const dispatch = useDispatch();
   const { songId, isPlaying } = useSelector((state) => state.controlPlayer);
-
+  console.log(album);
   const handleClickSong = useCallback(
     (item, index) => {
       dispatch(actions.setSongId(item.encodeId));

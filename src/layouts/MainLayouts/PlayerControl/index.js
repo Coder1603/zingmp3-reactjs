@@ -178,7 +178,7 @@ function PlayerControl() {
       dispatch(actions.setSongId(playlist[randomIndex].encodeId));
       dispatch(actions.setIndexSongPlaylist(randomIndex));
     } else {
-      if (indexSong < playlist.length - 1) {
+      if (indexSong < playlist?.length - 1) {
         dispatch(actions.setSongId(playlist[indexSong + 1].encodeId));
         dispatch(actions.setIndexSongPlaylist(indexSong + 1));
       } else {
@@ -255,13 +255,11 @@ function PlayerControl() {
     };
   }, [handleBeforeUnload]);
 
-  // console.log("re-render-controlPlayer");
-
   return (
     songInf && (
       <div className={cx("wrapper")}>
         <div className={cx("level-left")}>
-          <Link to={playlist[0].album?.link} className={cx("media")}>
+          <Link to={"/"} className={cx("media")}>
             <div className={cx("media-thumnail")}>
               <img src={songInf.thumbnailM} alt="" />
             </div>

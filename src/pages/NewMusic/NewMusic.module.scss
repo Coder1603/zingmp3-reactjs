@@ -1,0 +1,16 @@
+.wrapper {
+  padding: 40px 0 50px;
+  .header-section {
+    margin-bottom: 32px;
+    padding: 0;
+    h1 {
+      text-transform: capitalize;
+      font-size: 40px;
+      font-weight: 700;
+      line-height: normal;
+      flex-direction: row;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

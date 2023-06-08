@@ -27,8 +27,6 @@ function Home() {
     document.title =
       "Zing MP3 | Nghe tải nhạc chất lượng cao trên desktop, mobile và TV";
   }, []);
-  // console.log("re-render-home");
-  console.log(dataHome);
 
   return (
     dataHome && (
