@@ -182,7 +182,7 @@ function PlayerControl() {
         dispatch(actions.setSongId(playlist[indexSong + 1].encodeId));
         dispatch(actions.setIndexSongPlaylist(indexSong + 1));
       } else {
-        dispatch(actions.setSongId(playlist[0].encodeId));
+        dispatch(actions.setSongId(playlist[0]?.encodeId));
         dispatch(actions.setIndexSongPlaylist(0));
       }
     }
